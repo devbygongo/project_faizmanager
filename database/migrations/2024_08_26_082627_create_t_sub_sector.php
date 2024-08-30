@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 256)->after('id');
             // $table->string('sector', 256)->after('name');
             $table->integer('sector', 256)->after('name');
-            $table->string('its_of_incharge', 20)->after('sector');
+            $table->string('its_of_incharge', 20)->after('sector')->nullable();
             $table->timestamps();
         });
     }
