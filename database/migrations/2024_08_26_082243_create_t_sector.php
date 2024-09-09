@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('t_sector', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 256)->after('id');
-            $table->string('its_of_incharge', 20)->after('name')->nullable();
+            $table->string('name', 256);
+            $table->string('its_of_incharge', 20)->nullable();
             $table->timestamps();
         });
     }

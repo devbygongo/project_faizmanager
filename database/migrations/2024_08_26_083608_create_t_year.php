@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('t_year', function (Blueprint $table) {
             $table->id();
-            $table->string('year', 100)->unique()->after('id');
-            $table->date('date_start')->after('year');
-            $table->date('date_end')->after('date_start');
-            $table->boolean('is_current')->after('date_end');
+            $table->string('year', 100)->unique();
+            $table->date('date_start');
+            $table->date('date_end');
+            $table->boolean('is_current');
             $table->timestamps();
         });
     }
