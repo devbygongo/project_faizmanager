@@ -25,6 +25,9 @@ class CSVImportController extends Controller
 
         $user_records = (new Statement())->process($csvContent_user);
 
+        $insert_user = null;
+        $update_user = null;
+
         foreach ($user_records as $user)
         {
             $user = User::where('mobile', $user['mobile'])->first();
@@ -36,7 +39,7 @@ class CSVImportController extends Controller
 
             if ($user) {
                 // If user exists, update it
-                $response = $user->update([
+                $update_user = $user->update([
                     'name' => $user['name'],
                     'email' => strtolower($user_email),
                     'password' => bcrypt($user['mobile']),
@@ -63,7 +66,7 @@ class CSVImportController extends Controller
 
             else {
                 // If user does not exist, create a new one
-                $response = $user->create([
+                $insert_user = $user->create([
                     'name' => $user['name'],
                     'email' => strtolower($user_email),
                     'password' => bcrypt($user['mobile']),
@@ -87,13 +90,13 @@ class CSVImportController extends Controller
                     'status' => $user['status'],
                 ]);
             }
+        }
 
-            if (isset($response)) {
-                return response()->json(['message' => 'Users imported successfully!'], 200);
-            }
-            else {
-                return response()->json(['message' => 'Sorry, failed to imported successfully!'], 400);
-            }
+        if ($update_user == 1 || isset($insert_user)) {
+            return response()->json(['message' => 'Users imported successfully!', 'success' => 'true'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Sorry, failed to imported successfully!', 'success' => 'false'], 400);
         }
     }
 }
