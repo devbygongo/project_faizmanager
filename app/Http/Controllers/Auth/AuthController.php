@@ -83,7 +83,11 @@ class AuthController extends Controller
 
             $expiresAt = now()->addMinutes(10);
 
-            $store_otp = User::where('mobile', $mobile);
+            $store_otp = User::where('mobile', $mobile)
+                             ->update([
+                                'otp' => $six_digit_otp,
+                                'expires_at' => $expiresAt,
+                            ]);
 
             if($store_otp)
             {
@@ -156,7 +160,7 @@ class AuthController extends Controller
 
                 else {
                     // Remove OTP record after successful validation
-                    User::select('otp')->where('mobile', $mobile)->update(['otp' => null, 'expires_at' => null]);
+                    User::select('otp')->where('mobile', $request->mobile)->update(['otp' => null, 'expires_at' => null]);
 
                     // Retrieve the use
                     $user = User::where('mobile', $request->mobile)->first();
@@ -167,21 +171,73 @@ class AuthController extends Controller
                     return response()->json([
                         'success' => true,
                         'data' => [
-                            'token' => $token,
+                            'token' => $generated_token,
                             'name' => $user->name,
-                            'role' => $user->role,
+                            // 'role' => $user->role,
                         ],
                         'message' => 'User logged in successfully!',
                     ], 200);
                 }
             }
+
+            else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'User not register.',
+                    ], 401);
+            }
         }
 
-        else{ 
+        else {
+            $request->validate([
+                'mobile' => ['required', 'string', 'min:12', 'max:14'],
+                'password' => 'required',
+            ]);
+
+            if(Auth::attempt(['mobile' => $request->mobile, 'password' => $request->password]))
+            {
+                $user = Auth::user();
+
+                // Generate a sanctrum token
+                $generated_token = $user->createToken('API TOKEN')->plainTextToken;
+
+                return response()->json([
+                    'success' => true,
+                    'data' => [
+                        'token' => $generated_token,
+                        'name' => $user->name,
+                        // 'role' => $user->role,
+                    ],
+                    'message' => 'User logged in successfully!',
+                ], 200);
+            }
+
+            else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not register.',
+                ], 401);
+            }
+        }
+    }
+
+    // user `logout`
+    public function logout(Request $request)
+    {
+        // Check if the user is authenticated
+        if(!$request->user()) {
             return response()->json([
-                'success' => false,
-                'message' => 'User not register.',
+                'success'=> false,
+                'message'=>'Sorry, no user is logged in now!',
             ], 401);
-        } 
+        }
+
+        // Revoke the token that was used to authenticate the current request
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged out successfully!',
+        ], 204);
     }
 }
