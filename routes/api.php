@@ -21,4 +21,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/import_users', [CSVImportController::class, 'importUser']);
 });
-Route::post('/import_users', [CSVImportController::class, 'importUser']);
+Route::get('/import_users', [CSVImportController::class, 'importUser']);
