@@ -12,43 +12,47 @@ class CSVImportController extends Controller
     //
     public function importUser()
     {
+        set_time_limit(60000); // Increase to 5 minutes, adjust as needed
         // URL of the CSV file from Google Sheets
         $csvurl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM-hjx9inHhq2KdvGOC8xf1t4ZxWPKgP3nAIm72iWg5FuQ_uC6fpN130UVeVHjzzRLkNUT7r8q8681/pub?gid=0&single=true&output=csv';
 
         // Fetch the CSV content using file_get_contents
         $csvContent_user = file_get_contents($csvurl);
 
+        if ($csvContent_user === false) {
+            throw new \Exception("Failed to fetch the CSV content from the URL.");
+        }
+
         // Fetch and parse the CSV
-        $csv = Reader::createFromPath($csvContent_user, 'r');
+        $csv = Reader::createFromString($csvContent_user, 'r');
 
         // Set the header offset
         $csv->setHeaderOffset(0);
 
-        $user_records = (new Statement())->process($csvContent_user);
+        $user_records = (new Statement())->process($csv);
 
         $insert_user = null;
         $update_user = null;
 
         foreach ($user_records as $user)
         {
-            $user = User::where('mobile', $user['mobile'])->first();
+            $get_user = User::where('mobile', $user['Mobile'])->first();
 
             // Handle potential empty values for email, family_id, and its
-            $user_email = !empty($user['email']) ? $user['email'] : null;
-            $user_family_id = $user['family_id'] !== '' ? $user['family_id'] : 0;
+            // $user_email = NULL;
             $user_its = $user['ITS_ID'] !== '' ? $user['ITS_ID'] : 0;
 
-            if ($user) {
+            if ($get_user) {
                 // If user exists, update it
-                $update_user = $user->update([
+                $update_user = $get_user->update([
                     'name' => $user['Name'],
-                    'email' => strtolower($user_email),
-                    'password' => bcrypt($user['mobile']),
-                    // 'family_id' => $user_family_id,
+                    // 'email' => $user_email,
+                    'password' => bcrypt($user['Mobile']),
+                    'family_id' => random_int(1000000000, 9999999999),
                     // 'title' => $user['title'],
                     'its' => $user_its,
                     'hof_its' => $user_its,
-                    'family_its_id' => random_int(1000000000, 9999999999),
+                    // 'family_its_id' => random_int(1000000000, 9999999999),
                     'mobile' => $user['Mobile'],
                     // 'address' => $user['address'],
                     // 'building' => $user['building'],
@@ -67,15 +71,15 @@ class CSVImportController extends Controller
 
             else {
                 // If user does not exist, create a new one
-                $insert_user = $user->create([
+                $insert_user = User::create([
                     'name' => $user['Name'],
-                    'email' => strtolower($user_email),
-                    'password' => bcrypt($user['mobile']),
-                    // 'family_id' => $user_family_id,
+                    // 'email' => $user_email,
+                    'password' => bcrypt($user['Mobile']),
+                    'family_id' => random_int(1000000000, 9999999999),
                     // 'title' => $user['title'],
                     'its' => $user_its,
                     'hof_its' => $user_its,
-                    'family_its_id' => random_int(1000000000, 9999999999),
+                    // 'family_its_id' => random_int(1000000000, 9999999999),
                     'mobile' => $user['Mobile'],
                     // 'address' => $user['address'],
                     // 'building' => $user['building'],
