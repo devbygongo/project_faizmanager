@@ -107,7 +107,7 @@ class CSVImportController extends Controller
     // }
     
      // Function to handle CSV import (create/update)
-     public function import(Request $request)
+     public function importUser()
      {
         $csvurl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM-hjx9inHhq2KdvGOC8xf1t4ZxWPKgP3nAIm72iWg5FuQ_uC6fpN130UVeVHjzzRLkNUT7r8q8681/pub?gid=0&single=true&output=csv';
  
