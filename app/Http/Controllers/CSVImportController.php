@@ -112,7 +112,7 @@ class CSVImportController extends Controller
         $csvurl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM-hjx9inHhq2KdvGOC8xf1t4ZxWPKgP3nAIm72iWg5FuQ_uC6fpN130UVeVHjzzRLkNUT7r8q8681/pub?gid=0&single=true&output=csv';
  
          // Retrieve the uploaded file
-         $file = $request->file('csv_file');
+        //  $file = $request->file('csv_file');
 
          $csvContent_user = file_get_contents($csvurl);
 
