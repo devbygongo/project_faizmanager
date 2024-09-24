@@ -140,6 +140,8 @@ class CSVImportController extends Controller
             //  $existingRecord = User::where('email', $user['email'])->first();
             $get_user = User::where('mobile', $user['Mobile'])->first();
  
+            $user_its = $user['ITS_ID'] !== '' ? $user['ITS_ID'] : 0;
+            
              if ($get_user) {
                  // If the record exists, update it
                  $get_user->update([
