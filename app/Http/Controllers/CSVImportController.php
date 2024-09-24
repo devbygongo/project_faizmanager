@@ -142,7 +142,7 @@ class CSVImportController extends Controller
  
              if ($get_user) {
                  // If the record exists, update it
-                 $existingRecord->update([
+                 $get_user->update([
                     'name' => $user['Name'],
                     // 'email' => $user_email,
                     'password' => bcrypt($user['Mobile']),
