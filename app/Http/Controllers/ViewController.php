@@ -83,7 +83,8 @@ class ViewController extends Controller
         // 'image_link', 
         'mobile', 'folio_no', 'sector', 'sub_sector', 'thali_status'
         // , 'current_hub', 'current_paid', 'current_due'
-    );
+    )
+    ->whereColumn('hof_its', 'its');
 
         if($request->input('hof_its') != null)
         {
