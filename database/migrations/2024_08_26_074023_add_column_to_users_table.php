@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             //
             $table->string('email')->nullable()->default(null)->change();
-            $table->bigInteger('family_id')->unique()->after('email');
-            $table->string('title', 100)->after('family_id')->nullable();
+            $table->enum('role', ['dotcomsolutions', 'superadmin', 'user'])->after('email');
+            $table->bigInteger('family_id')->unique()->after('role');
+            $table->enum('family_type', ['hof', 'fm'])->nullable()->after('family_id');
+            $table->integer('jamiat_id')->after('family_type')->nullable();
+            $table->string('title', 100)->after('jamiat_id')->nullable();
             $table->string('its', 10)->unique()->after('title');
             $table->string('hof_its', 10)->after('its');
             $table->string('family_its_id', 10)->after('hof_its')->nullable();
@@ -25,7 +28,6 @@ return new class extends Migration
             $table->string('flat_no', 10)->after('building')->nullable();
             $table->string('lattitude', 100)->after('flat_no')->nullable();
             $table->string('longitude', 100)->after('lattitude')->nullable();
-            // $table->string('gender', 10)->after('longitude')->nullable();
             $table->enum('gender', ['male', 'female'])->after('longitude');
             $table->date('date_of_birth')->after('gender')->nullable();
             $table->string('folio_no', 100)->after('date_of_birth')->nullable();
