@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('billing_email', 150)->nullable();
             $table->string('billing_phone', 20)->nullable();
             $table->date('last_payment_date')->nullable();
-            $table->float('last_payment_amount', 256)->nullable();
+            $table->float('last_payment_amount')->nullable();
             $table->date('payment_due_date')->nullable();
             $table->date('validity');
             // as it don't support `length`, it can store upto `65,535 characters for TEXT type in MySQL`

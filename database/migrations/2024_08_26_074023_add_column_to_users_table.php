@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             //
             $table->string('email')->nullable()->default(null)->change();
-            $table->string('mobile', 20)->after('role');
+            $table->string('mobile', 20)->after('email');
             $table->string('its_number', 8)->nullable()->unique()->after('mobile');
             $table->string('family_id', 10)->nullable()->unique()->after('its_number');
             $table->string('hof_its', 8)->after('family_id')->nullable();
             $table->string('its_family_id', 10)->after('hof_its')->nullable();
-            $table->string('folio_no', 20)->after('date_of_birth')->nullable();
+            $table->string('folio_no', 20)->after('its_family_id')->nullable();
             $table->enum('mumeneen_type', ['HOF', 'FM'])->after('folio_no')->nullable();
             $table->enum('title', ['Shaikh', 'Mulla'])->after('mumeneen_type')->nullable();
             $table->enum('gender', ['male', 'female'])->after('title')->nullable();
