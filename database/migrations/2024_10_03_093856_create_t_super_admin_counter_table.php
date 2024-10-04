@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_year', function (Blueprint $table) {
+        Schema::create('t_super_admin_counter', function (Blueprint $table) {
             $table->id();
-            $table->string('year', 100)->unique();
-            $table->enum('is_current', ['0', '1']);
+            $table->string('key', 100);
+            $table->longText('value');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_year');
+        Schema::dropIfExists('t_super_admin_counter');
     }
 };

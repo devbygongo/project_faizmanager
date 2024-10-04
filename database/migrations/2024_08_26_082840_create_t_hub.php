@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('t_hub', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 256);
-            $table->string('year', 100);
-            $table->string('event', 100);
-            $table->float('hub');
-            $table->float('prev_paid');
-            $table->integer('added_by');
-            $table->timestamp('last_modified');
-            $table->enum('short_closed', ['0', '1']);
+            $table->integer('jamiat_id');
+            $table->string('family_id', 10)->unique();
+            $table->string('hof_its', 8);
+            $table->string('year', 10);
+            $table->float('hub_amount');
+            $table->float('paid_amount')->nullable();
+            $table->float('due_amount')->nullable();
+            $table->string('log_user', 100);
             $table->timestamps();
         });
     }

@@ -11,13 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_sub_sector', function (Blueprint $table) {
+        Schema::create('t_email_queue', function (Blueprint $table) {
             $table->id();
-            $table->integer('jamiat_id');
-            $table->integer('sector_id');
-            $table->string('name', 100);
+            $table->string('to', 255);
+            $table->string('cc', 255)->nullable();
+            $table->string('bcc', 255)->nullable();
+            $table->string('from', 255);
+            $table->string('subject', 255);
             // as it don't support `length`, it can store upto `65,535 characters for TEXT type in MySQL`
-            $table->text('notes')->nullable();
+            $table->text('content');
+            $table->string('attachment', 255)->nullable();
+            $table->text('response')->nullable();
+            $table->enum('status', ['pending', 'sent', 'failed']);
             $table->string('log_user', 100);
             $table->timestamps();
         });
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_sub_sector');
+        Schema::dropIfExists('t_email_queue');
     }
 };

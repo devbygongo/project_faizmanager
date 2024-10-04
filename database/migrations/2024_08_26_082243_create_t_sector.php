@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('t_sector', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 256);
-            $table->string('its_of_incharge', 20)->nullable();
+            $table->integer('jamiat_id');
+            $table->string('name', 100);
+            // as it don't support `length`, it can store upto `65,535 characters for TEXT type in MySQL`
+            $table->text('notes')->nullable();
+            $table->string('log_user', 100);
             $table->timestamps();
         });
     }

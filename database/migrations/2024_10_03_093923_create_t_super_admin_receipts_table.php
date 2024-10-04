@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_sub_sector', function (Blueprint $table) {
+        Schema::create('t_super_admin_receipts', function (Blueprint $table) {
             $table->id();
             $table->integer('jamiat_id');
-            $table->integer('sector_id');
-            $table->string('name', 100);
+            $table->float('amount');
+            $table->integer('package');
+            $table->date('payment_date');
+            $table->string('receipt_number', 100)->unique();
+            $table->integer('created_by');
             // as it don't support `length`, it can store upto `65,535 characters for TEXT type in MySQL`
             $table->text('notes')->nullable();
-            $table->string('log_user', 100);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_sub_sector');
+        Schema::dropIfExists('t_super_admin_receipts');
     }
 };
