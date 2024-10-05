@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_year', function (Blueprint $table) {
+        Schema::create('t_counter', function (Blueprint $table) {
             $table->id();
+            $table->integer('jamiat_id');
+            $table->integer('sector_id')->nullable();
+            $table->string('type', 50);
             $table->string('year', 10);
-            $table->enum('is_current', ['0', '1']);
+            $table->integer('value');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_year');
+        Schema::dropIfExists('t_counter');
     }
 };

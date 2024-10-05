@@ -15,8 +15,8 @@ return new class extends Migration
             //
             $table->string('email')->nullable()->default(null)->change();
             $table->string('mobile', 20)->after('email');
-            $table->string('its_number', 8)->nullable()->unique()->after('mobile');
-            $table->string('family_id', 10)->nullable()->unique()->after('its_number');
+            $table->string('its', 8)->nullable()->unique()->after('mobile');
+            $table->string('family_id', 10)->nullable()->unique()->after('its');
             $table->string('hof_its', 8)->after('family_id')->nullable();
             $table->string('its_family_id', 10)->after('hof_its')->nullable();
             $table->string('folio_no', 20)->after('its_family_id')->nullable();
