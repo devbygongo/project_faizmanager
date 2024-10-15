@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_hub', function (Blueprint $table) {
+        Schema::create('t_feedback_response', function (Blueprint $table) {
             $table->id();
             $table->integer('jamiat_id');
-            $table->string('family_id', 10);
-            $table->string('hof_its', 8);
-            $table->string('year', 10);
-            $table->float('hub_amount');
-            $table->float('paid_amount')->nullable();
-            $table->float('due_amount')->nullable();
-            $table->string('log_user', 100);
+            $table->integer('family_id');
+            $table->integer('feedback_id');
+            $table->string('name');
+            $table->date('date');
+            $table->string('message');
+            $table->string('attachment')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_hub');
+        Schema::dropIfExists('t_feedback_response');
     }
 };

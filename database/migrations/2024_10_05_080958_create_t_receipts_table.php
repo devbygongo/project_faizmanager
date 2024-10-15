@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('t_receipts', function (Blueprint $table) {
             $table->id();
+            $table->integer('jamiat_id');
+            $table->string('family_id', 10);
             $table->string('receipt_no', 100);
             $table->date('date');
-            $table->string('family_id', 10);
             $table->string('its', 8);
             $table->string('folio_no', 20)->nullable();
             $table->string('name', 100);
             $table->string('sector', 100)->nullable();
             $table->string('sub_sector', 100)->nullable();
-            $table->integer('jamiat_id');
             $table->float('amount');
             $table->enum('mode', ['cheque', 'cash', 'neft', 'upi']);
             $table->string('bank_name', 100)->nullable();
@@ -36,6 +36,7 @@ return new class extends Migration
             $table->text('cancellation_reason')->nullable();
             $table->string('collected_by', 100)->nullable();
             $table->string('log_user', 100);
+            $table->integer('attachment')->nullable();
             $table->timestamps();
         });
     }

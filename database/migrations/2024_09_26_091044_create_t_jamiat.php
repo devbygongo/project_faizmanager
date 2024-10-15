@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('t_jamiat', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 256)->unique();
-            $table->string('mobile', 20)->unique();
-            $table->string('email', 256)->unique();
+            $table->string('name', 150);
+            $table->string('mobile', 20);
+            $table->string('email', 150);
             $table->integer('package');
             // as it don't support `length`, it can store upto `65,535 characters for TEXT type in MySQL`
             $table->text('billing_address')->nullable();

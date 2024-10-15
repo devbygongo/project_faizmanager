@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('t_payments', function (Blueprint $table) {
             $table->id();
-            $table->string('payment_no', 100);
+            $table->string('payment_no', 100)->unique();
             $table->string('family_id', 10);
             $table->string('folio_no', 20)->nullable();
             $table->string('name', 100);
@@ -35,6 +35,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'cancelled', 'approved']);
             $table->text('cancellation_reason')->nullable();
             $table->string('log_user', 100);
+            $table->integer('attachment')->nullable();
             $table->timestamps();
         });
     }

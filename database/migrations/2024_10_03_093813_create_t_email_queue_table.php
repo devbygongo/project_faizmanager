@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('t_email_queue', function (Blueprint $table) {
             $table->id();
+            $table->integer('jamiat_id');
+            $table->integer('family_id');
             $table->string('to', 255);
             $table->string('cc', 255)->nullable();
             $table->string('bcc', 255)->nullable();
