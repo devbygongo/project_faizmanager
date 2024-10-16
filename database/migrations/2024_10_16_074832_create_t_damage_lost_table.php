@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_hub', function (Blueprint $table) {
+        Schema::create('t_damage_lost', function (Blueprint $table) {
             $table->id();
             $table->integer('jamiat_id');
-            $table->string('family_id', 10);
-            $table->string('year', 10);
-            $table->float('hub_amount');
-            $table->float('paid_amount')->nullable();
-            $table->float('due_amount')->nullable();
-            $table->string('log_user', 100);
+            $table->integer('food_item_id');
+            $table->integer('quantity');
+            // as it don't support `length`, it can store upto `65,535 characters for TEXT type in MySQL`
+            $table->text('remarks');
+            $table->string('log_user');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_hub');
+        Schema::dropIfExists('t_damage_lost');
     }
 };

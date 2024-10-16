@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('t_counter', function (Blueprint $table) {
             $table->id();
             $table->integer('jamiat_id');
-            $table->integer('sector_id')->nullable();
+            $table->integer('sector')->nullable();
             $table->string('type', 50);
             $table->string('year', 10);
             $table->integer('value');
-            $table->timestamps();
+            $table->timestamps();  
         });
     }
 

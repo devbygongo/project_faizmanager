@@ -25,7 +25,6 @@ return new class extends Migration
             $table->enum('title', ['Shaikh', 'Mulla'])->after('mumeneen_type')->nullable();
             $table->enum('gender', ['male', 'female'])->after('title')->nullable();
             $table->integer('age')->after('gender')->nullable();
-            // as it don't support `length`, it can store upto `65,535 characters for TEXT type in MySQL`
             $table->integer('building')->after('age')->nullable();
             $table->string('sector', 100)->after('building')->nullable();
             $table->string('sub_sector', 100)->after('sector')->nullable();

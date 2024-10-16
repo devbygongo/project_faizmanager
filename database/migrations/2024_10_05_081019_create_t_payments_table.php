@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('t_payments', function (Blueprint $table) {
             $table->id();
             $table->string('payment_no', 100)->unique();
+            $table->string('jamiat_id', 10);
             $table->string('family_id', 10);
             $table->string('folio_no', 20)->nullable();
             $table->string('name', 100);
