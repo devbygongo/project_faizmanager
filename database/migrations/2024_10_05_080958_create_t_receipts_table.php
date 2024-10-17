@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('collected_by', 100)->nullable();
             $table->string('log_user', 100);
             $table->integer('attachment')->nullable();
+            $table->integer('payment_id');
             $table->timestamps();
         });
     }
