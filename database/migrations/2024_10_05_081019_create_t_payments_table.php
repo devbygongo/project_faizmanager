@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('sub_sector', 100)->nullable();
             $table->string('year', 10);
             $table->enum('mode', ['cheque', 'cash', 'neft', 'upi']);
-            $table->string('against_receipt_no', 100);
+            // $table->string('against_receipt_no', 100);
             $table->date('date');
             $table->string('bank_name', 100)->nullable();
             $table->string('cheque_no', 50)->nullable();

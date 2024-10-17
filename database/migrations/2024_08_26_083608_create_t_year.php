@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('t_year', function (Blueprint $table) {
             $table->id();
             $table->string('year', 10);
+            $table->integer('jamiat_id');
             $table->enum('is_current', ['0', '1']);
             $table->timestamps();
         });
