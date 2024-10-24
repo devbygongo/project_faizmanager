@@ -12,14 +12,7 @@ class HubModel extends Model
     protected $table = 't_hub';
 
     protected $fillable = [
-        'name',
-        'year',
-        'event',
-        'hub',
-        'prev_paid',
-        'added_by',
-        'last_modified',
-        'short_closed',
+        'jamiat_id', 'family_id', 'year', 'hub_amount', 'paid_amount', 'due_amount', 'log_user',
     ];
 
     // Define the relationship with the Year model

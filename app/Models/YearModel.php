@@ -12,10 +12,7 @@ class YearModel extends Model
     protected $table = 't_year';
 
     protected $fillable = [
-        'year',
-        'date_start',
-        'date_end',
-        'is_current',
+        'year', 'jamiat_id', 'is_current',
     ];
 
     // Define the relationship with the Hub model
