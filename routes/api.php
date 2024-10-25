@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MumeneenController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\CSVImportController;
-use App\Http\Controllers\UpdateController;
+use App\Http\Controllers\MenuCardController;
 
 Route::post('/register', [MumeneenController::class, 'register_users']);
 
@@ -149,6 +149,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/food_sale_items', [InventoryController::class, 'all_food_sale_items']);
     Route::post('/update_food_sale_items/{id}', [InventoryController::class, 'update_food_sale_items']);
     Route::delete('/food_sale_items/{id}', [InventoryController::class, 'delete_food_sale_items']);
+
+    // menu_card
+    Route::post('/menu_card', [MenuCardController::class, 'register_menu_card']);
+    Route::get('/menu_card', [MenuCardController::class, 'all_menu_card']);
+    Route::post('/update_menu_card/{id}', [MenuCardController::class, 'update_menu_card']);
+    Route::delete('/menu_card/{id}', [MenuCardController::class, 'delete_menu_card']);
+
+    // dishes
+    Route::post('/dish', [MenuCardController::class, 'register_dish']);
+    Route::get('/dish', [MenuCardController::class, 'all_dishes']);
+    Route::post('/update_dish/{id}', [MenuCardController::class, 'update_dish']);
+    Route::delete('/dish/{id}', [MenuCardController::class, 'delete_dish']);
+
+    // dish_items
+    Route::post('/dish_items', [MenuCardController::class, 'register_dish_items']);
+    Route::get('/dish_items', [MenuCardController::class, 'all_dish_items']);
+    Route::post('/update_dish_items/{id}', [MenuCardController::class, 'update_dish_item']);
+    Route::delete('/dish_items/{id}', [MenuCardController::class, 'delete_dish_item']);
     
 });
 Route::get('/import_users', [CSVImportController::class, 'importUser']);
