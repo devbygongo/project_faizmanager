@@ -7,6 +7,8 @@ use App\Http\Controllers\MumeneenController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\CSVImportController;
 use App\Http\Controllers\MenuCardController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\JamiatController;
 
 Route::post('/register', [MumeneenController::class, 'register_users']);
 
@@ -167,6 +169,42 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/dish_items', [MenuCardController::class, 'all_dish_items']);
     Route::post('/update_dish_items/{id}', [MenuCardController::class, 'update_dish_item']);
     Route::delete('/dish_items/{id}', [MenuCardController::class, 'delete_dish_item']);
+
+    // feedback
+    Route::post('/feedback', [FeedbackController::class, 'register_feedback']);
+    Route::get('/feedback', [FeedbackController::class, 'all_feedbacks']);
+    Route::post('/update_feedback/{id}', [FeedbackController::class, 'update_feedback']);
+    Route::delete('/feedback/{id}', [FeedbackController::class, 'delete_feedback']);
+
+    // feedback_responses
+    Route::post('/feedback_responses', [FeedbackController::class, 'register_feedback_response']);
+    Route::get('/feedback_responses', [FeedbackController::class, 'all_feedback_responses']);
+    Route::post('/update_feedback_responses/{id}', [FeedbackController::class, 'update_feedback_response']);
+    Route::delete('/feedback_responses/{id}', [FeedbackController::class, 'delete_feedback_response']);
+
+    // jamiat
+    Route::post('/jamiat', [JamiatController::class, 'register_jamiat']);
+    Route::get('/jamiat', [JamiatController::class, 'all_jamiat']);
+    Route::post('/update_jamiat/{id}', [JamiatController::class, 'update_jamiat']);
+    Route::delete('/jamiat/{id}', [JamiatController::class, 'delete_jamiat']);
+
+    // jamiat_settings
+    Route::post('/jamiat_settings', [JamiatController::class, 'register_jamiat_settings']);
+    Route::get('/jamiat_settings', [JamiatController::class, 'all_jamiat_settings']);
+    Route::post('/update_jamiat_settings/{id}', [JamiatController::class, 'update_jamiat_settings']);
+    Route::delete('/jamiat_settings/{id}', [JamiatController::class, 'delete_jamiat_settings']);
+
+    // super_admin_receipt
+    Route::post('/super_admin_receipt', [JamiatController::class, 'register_super_admin_receipts']);
+    Route::get('/super_admin_receipt', [JamiatController::class, 'all_super_admin_receipts']);
+    Route::post('/update_super_admin_receipt/{id}', [JamiatController::class, 'update_super_admin_receipt']);
+    Route::delete('/super_admin_receipt/{id}', [JamiatController::class, 'delete_super_admin_receipt']);
+
+    // super_admin_counter
+    Route::post('/super_admin_counter', [JamiatController::class, 'register_super_admin_counter']);
+    Route::get('/super_admin_counter', [JamiatController::class, 'all_super_admin_counters']);
+    Route::post('/update_super_admin_counter/{id}', [JamiatController::class, 'update_super_admin_counter']);
+    Route::delete('/super_admin_counter/{id}', [JamiatController::class, 'delete_super_admin_counter']);
     
 });
 Route::get('/import_users', [CSVImportController::class, 'importUser']);
