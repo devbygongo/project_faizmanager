@@ -191,6 +191,76 @@ class InventoryController extends Controller
     }
 
     // create
+    public function register_damage_lost(Request $request)
+    {
+        $request->validate([
+            'jamiat_id' => 'required|integer',
+            'food_item_id' => 'required|integer',
+            'quantity' => 'required|integer',
+            'remarks' => 'nullable|string',
+            'log_user' => 'required|string|max:100',
+        ]);
+
+        $register_damage_lost = DamageLostModel::create([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'food_item_id' => $request->input('food_item_id'),
+            'quantity' => $request->input('quantity'),
+            'remarks' => $request->input('remarks'),
+            'log_user' => $request->input('log_user'),
+        ]);
+
+        return $register_damage_lost
+            ? response()->json(['message' => 'Damage/Lost record created successfully!', 'data' => $register_damage_lost], 201)
+            : response()->json(['message' => 'Failed to create record!'], 400);
+    }
+
+    // view
+    public function all_damage_lost()
+    {
+        $get_all_damage_lost = DamageLostModel::select(
+            'jamiat_id', 'food_item_id', 'quantity', 'remarks', 'log_user'
+        )->get();
+
+        return $get_all_damage_lost->isNotEmpty()
+            ? response()->json(['message' => 'Damage/Lost records fetched successfully!', 'data' => $get_all_damage_lost], 200)
+            : response()->json(['message' => 'No records found!'], 404);
+    }
+
+    // update
+    public function update_damage_lost(Request $request, $id)
+    {
+        $get_damage_lost = DamageLostModel::find($id);
+
+        if (!$get_damage_lost) {
+            return response()->json(['message' => 'Damage/Lost record not found!'], 404);
+        }
+
+        $request->validate([
+            'jamiat_id' => 'required|integer',
+            'food_item_id' => 'required|integer',
+            'quantity' => 'required|integer',
+            'remarks' => 'nullable|string',
+            'log_user' => 'required|string|max:100',
+        ]);
+
+        $update_damage_lost_record = $get_damage_lost->update($request->all());
+
+        return $update_damage_lost_record
+            ? response()->json(['message' => 'Record updated successfully!', 'data' => $update_damage_lost_record], 200)
+            : response()->json(['No changes detected'], 304);
+    }
+
+    // delete
+    public function delete_damage_lost($id)
+    {
+        $delete_damage_lost = DamageLostModel::where('id', $id)->delete();
+
+        return $delete_damage_lost
+            ? response()->json(['message' => 'Damage/Lost record deleted successfully!'], 200)
+            : response()->json(['message' => 'Record not found!'], 404);
+    }
+
+    // create
     public function register_food_purchase(Request $request)
     {
         $request->validate([
@@ -270,155 +340,6 @@ class InventoryController extends Controller
     }
 
     // create
-    public function register_food_sale(Request $request)
-    {
-        $request->validate([
-            'jamiat_id' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'menu' => 'required|string|max:255',
-            'family_id' => 'nullable|integer',
-            'date' => 'required|date',
-            'thaal_count' => 'required|integer',
-            'total' => 'required|integer',
-            'log_user' => 'required|string|max:100',
-        ]);
-
-        $register_food_sale = FoodSaleModel::create([
-            'jamiat_id' => $request->input('jamiat_id'),
-            'name' => $request->input('name'),
-            'menu' => $request->input('menu'),
-            'family_id' => $request->input('family_id'),
-            'date' => $request->input('date'),
-            'thaal_count' => $request->input('thaal_count'),
-            'total' => $request->input('total'),
-            'log_user' => $request->input('log_user'),
-        ]);
-
-        return $register_food_sale
-            ? response()->json(['message' => 'Food sale record created successfully!', 'data' => $register_food_sale], 201)
-            : response()->json(['message' => 'Failed to create food sale record!'], 400);
-    }
-
-    // view
-    public function all_food_sales()
-    {
-        $get_all_food_sales = FoodSaleModel::select(
-            'jamiat_id', 'name', 'menu', 'family_id', 'date', 'thaal_count', 'total', 'log_user'
-        )->get();
-
-        return $get_all_food_sales->isNotEmpty()
-            ? response()->json(['message' => 'Food sales fetched successfully!', 'data' => $get_all_food_sales], 200)
-            : response()->json(['message' => 'No food sale records found!'], 404);
-    }
-
-    // update
-    public function update_food_sale(Request $request, $id)
-    {
-        $get_food_sale = FoodSaleModel::find($id);
-
-        if (!$get_food_sale) {
-            return response()->json(['message' => 'Food sale record not found!'], 404);
-        }
-
-        $request->validate([
-            'jamiat_id' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'menu' => 'required|string|max:255',
-            'family_id' => 'nullable|integer',
-            'date' => 'required|date',
-            'thaal_count' => 'required|integer',
-            'total' => 'required|integer',
-            'log_user' => 'required|string|max:100',
-        ]);
-
-        $update_food_sale_record = $get_food_sale->update($request->all());
-
-        return $update_food_sale_record
-            ? response()->json(['message' => 'Food sale record updated successfully!', 'data' => $update_food_sale_record], 200)
-            : response()->json(['No changes detected'], 304);
-    }
-
-    // delete
-    public function delete_food_sale($id)
-    {
-        $delete_food_sale = FoodSaleModel::where('id', $id)->delete();
-
-        return $delete_food_sale
-            ? response()->json(['message' => 'Food sale record deleted successfully!'], 200)
-            : response()->json(['message' => 'Food sale record not found!'], 404);
-    }
-
-    // create
-    public function register_damage_lost(Request $request)
-    {
-        $request->validate([
-            'jamiat_id' => 'required|integer',
-            'food_item_id' => 'required|integer',
-            'quantity' => 'required|integer',
-            'remarks' => 'nullable|string',
-            'log_user' => 'required|string|max:100',
-        ]);
-
-        $register_damage_lost = DamageLostModel::create([
-            'jamiat_id' => $request->input('jamiat_id'),
-            'food_item_id' => $request->input('food_item_id'),
-            'quantity' => $request->input('quantity'),
-            'remarks' => $request->input('remarks'),
-            'log_user' => $request->input('log_user'),
-        ]);
-
-        return $register_damage_lost
-            ? response()->json(['message' => 'Damage/Lost record created successfully!', 'data' => $register_damage_lost], 201)
-            : response()->json(['message' => 'Failed to create record!'], 400);
-    }
-
-    // view
-    public function all_damage_lost()
-    {
-        $get_all_damage_lost = DamageLostModel::select(
-            'jamiat_id', 'food_item_id', 'quantity', 'remarks', 'log_user'
-        )->get();
-
-        return $get_all_damage_lost->isNotEmpty()
-            ? response()->json(['message' => 'Damage/Lost records fetched successfully!', 'data' => $get_all_damage_lost], 200)
-            : response()->json(['message' => 'No records found!'], 404);
-    }
-
-    // update
-    public function update_damage_lost(Request $request, $id)
-    {
-        $get_damage_lost = DamageLostModel::find($id);
-
-        if (!$get_damage_lost) {
-            return response()->json(['message' => 'Damage/Lost record not found!'], 404);
-        }
-
-        $request->validate([
-            'jamiat_id' => 'required|integer',
-            'food_item_id' => 'required|integer',
-            'quantity' => 'required|integer',
-            'remarks' => 'nullable|string',
-            'log_user' => 'required|string|max:100',
-        ]);
-
-        $update_damage_lost_record = $get_damage_lost->update($request->all());
-
-        return $update_damage_lost_record
-            ? response()->json(['message' => 'Record updated successfully!', 'data' => $update_damage_lost_record], 200)
-            : response()->json(['No changes detected'], 304);
-    }
-
-    // delete
-    public function delete_damage_lost($id)
-    {
-        $delete_damage_lost = DamageLostModel::where('id', $id)->delete();
-
-        return $delete_damage_lost
-            ? response()->json(['message' => 'Damage/Lost record deleted successfully!'], 200)
-            : response()->json(['message' => 'Record not found!'], 404);
-    }
-
-    // create
     public function register_food_purchase_items(Request $request)
     {
         $request->validate([
@@ -495,6 +416,85 @@ class InventoryController extends Controller
         return $delete_food_purchase_item
             ? response()->json(['message' => 'Food Purchase Item deleted successfully!'], 200)
             : response()->json(['message' => 'Food Purchase Item not found!'], 404);
+    }
+
+    // create
+    public function register_food_sale(Request $request)
+    {
+        $request->validate([
+            'jamiat_id' => 'required|integer',
+            'name' => 'required|string|max:255',
+            'menu' => 'required|string|max:255',
+            'family_id' => 'nullable|integer',
+            'date' => 'required|date',
+            'thaal_count' => 'required|integer',
+            'total' => 'required|integer',
+            'log_user' => 'required|string|max:100',
+        ]);
+
+        $register_food_sale = FoodSaleModel::create([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'name' => $request->input('name'),
+            'menu' => $request->input('menu'),
+            'family_id' => $request->input('family_id'),
+            'date' => $request->input('date'),
+            'thaal_count' => $request->input('thaal_count'),
+            'total' => $request->input('total'),
+            'log_user' => $request->input('log_user'),
+        ]);
+
+        return $register_food_sale
+            ? response()->json(['message' => 'Food sale record created successfully!', 'data' => $register_food_sale], 201)
+            : response()->json(['message' => 'Failed to create food sale record!'], 400);
+    }
+
+    // view
+    public function all_food_sales()
+    {
+        $get_all_food_sales = FoodSaleModel::select(
+            'jamiat_id', 'name', 'menu', 'family_id', 'date', 'thaal_count', 'total', 'log_user'
+        )->get();
+
+        return $get_all_food_sales->isNotEmpty()
+            ? response()->json(['message' => 'Food sales fetched successfully!', 'data' => $get_all_food_sales], 200)
+            : response()->json(['message' => 'No food sale records found!'], 404);
+    }
+
+    // update
+    public function update_food_sale(Request $request, $id)
+    {
+        $get_food_sale = FoodSaleModel::find($id);
+
+        if (!$get_food_sale) {
+            return response()->json(['message' => 'Food sale record not found!'], 404);
+        }
+
+        $request->validate([
+            'jamiat_id' => 'required|integer',
+            'name' => 'required|string|max:255',
+            'menu' => 'required|string|max:255',
+            'family_id' => 'nullable|integer',
+            'date' => 'required|date',
+            'thaal_count' => 'required|integer',
+            'total' => 'required|integer',
+            'log_user' => 'required|string|max:100',
+        ]);
+
+        $update_food_sale_record = $get_food_sale->update($request->all());
+
+        return $update_food_sale_record
+            ? response()->json(['message' => 'Food sale record updated successfully!', 'data' => $update_food_sale_record], 200)
+            : response()->json(['No changes detected'], 304);
+    }
+
+    // delete
+    public function delete_food_sale($id)
+    {
+        $delete_food_sale = FoodSaleModel::where('id', $id)->delete();
+
+        return $delete_food_sale
+            ? response()->json(['message' => 'Food sale record deleted successfully!'], 200)
+            : response()->json(['message' => 'Food sale record not found!'], 404);
     }
 
     // create

@@ -289,7 +289,7 @@ class MumeneenController extends Controller
     }
 
     // update
-    public function update_jamiat(Request $request, $id)
+    public function update_sector(Request $request, $id)
     {
         $get_sector = SectorModel::find($id);
 

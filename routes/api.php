@@ -120,29 +120,29 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update_food_items/{id}', [InventoryController::class, 'update_food_items']);
     Route::delete('/food_items/{id}', [InventoryController::class, 'delete_food_items']);
 
+    // damage_lost
+    Route::post('/damage_lost', [InventoryController::class, 'register_damage_lost']);
+    Route::get('/damage_lost', [InventoryController::class, 'all_damage_lost']);
+    Route::post('/update_damage_lost/{id}', [InventoryController::class, 'update_damage_lost']);
+    Route::delete('/damage_lost/{id}', [InventoryController::class, 'delete_damage_lost']);
+
     // food_purchase
     Route::post('/food_purchase', [InventoryController::class, 'register_food_purchase']);
     Route::get('/food_purchase', [InventoryController::class, 'all_food_purchase']);
     Route::post('/update_food_purchase/{id}', [InventoryController::class, 'update_food_purchase']);
     Route::delete('/food_purchase/{id}', [InventoryController::class, 'delete_food_purchase']);
 
-    // food_sale
-    Route::post('/food_sale', [InventoryController::class, 'register_food_sale']);
-    Route::get('/food_sale', [InventoryController::class, 'all_food_sale']);
-    Route::post('/update_food_sale/{id}', [InventoryController::class, 'update_food_sale']);
-    Route::delete('/food_sale/{id}', [InventoryController::class, 'delete_food_sale']);
-    
-    // damage_lost
-    Route::post('/damage_lost', [InventoryController::class, 'register_damage_lost']);
-    Route::get('/damage_lost', [InventoryController::class, 'all_damage_lost']);
-    Route::post('/update_damage_lost/{id}', [InventoryController::class, 'update_damage_lost']);
-    Route::delete('/damage_lost/{id}', [InventoryController::class, 'delete_damage_lost']);
-    
     // food_purchase_items
     Route::post('/food_purchase_items', [InventoryController::class, 'register_food_purchase_items']);
     Route::get('/food_purchase_items', [InventoryController::class, 'all_food_purchase_items']);
     Route::post('/update_food_purchase_items/{id}', [InventoryController::class, 'update_food_purchase_items']);
     Route::delete('/food_purchase_items/{id}', [InventoryController::class, 'delete_food_purchase_items']);
+
+    // food_sale
+    Route::post('/food_sale', [InventoryController::class, 'register_food_sale']);
+    Route::get('/food_sale', [InventoryController::class, 'all_food_sale']);
+    Route::post('/update_food_sale/{id}', [InventoryController::class, 'update_food_sale']);
+    Route::delete('/food_sale/{id}', [InventoryController::class, 'delete_food_sale']);
     
     // food_sale_items
     Route::post('/food_sale_items', [InventoryController::class, 'register_food_sale_items']);
