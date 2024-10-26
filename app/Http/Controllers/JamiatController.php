@@ -209,7 +209,7 @@ class JamiatController extends Controller
             'amount' => 'required|numeric',
             'package' => 'required|integer',
             'payment_date' => 'required|date',
-            'receipt_number' => 'required|string|max:100|unique:super_admin_receipts,receipt_number',
+            'receipt_number' => 'required|string|max:100|unique:t_super_admin_receipts,receipt_number',
             'created_by' => 'required|integer',
             'notes' => 'nullable|string'
         ]);
@@ -259,7 +259,7 @@ class JamiatController extends Controller
             'amount' => 'required|numeric',
             'package' => 'required|integer',
             'payment_date' => 'required|date',
-            'receipt_number' => 'required|string|max:100|unique:super_admin_receipts,receipt_number,' . $id,
+            'receipt_number' => 'required|string|max:100|unique:t_super_admin_receipts,receipt_number,' . $id,
             'created_by' => 'required|integer',
             'notes' => 'nullable|string'
         ]);
@@ -299,7 +299,7 @@ class JamiatController extends Controller
     public function register_super_admin_counter(Request $request)
     {
         $request->validate([
-            'key' => 'required|string|max:100|unique:super_admin_counter,key',
+            'key' => 'required|string|max:100|unique:t_super_admin_counter,key',
             'value' => 'required|string',
         ]);
 
@@ -350,9 +350,11 @@ class JamiatController extends Controller
     }
 
     // delete
-    public function delete_super_admin_counter($key)
+    public function delete_super_admin_counter($id)
     {
-        $counter_entry = SuperAdminCounterModel::where('key', $key)->first();
+        // $counter_entry = SuperAdminCounterModel::where('key', $key)->first();
+        // Find the specific receipt by ID
+        $counter_entry = SuperAdminCounterModel::find($id);
 
         if (!$counter_entry) {
             return response()->json(['message' => 'Counter entry not found!'], 404);

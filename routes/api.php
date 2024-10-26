@@ -191,7 +191,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // jamiat_settings
     Route::post('/jamiat_settings', [JamiatController::class, 'register_jamiat_settings']);
-    Route::get('/jamiat_settings', [JamiatController::class, 'all_jamiat_settings']);
+    Route::get('/jamiat_settings', [JamiatController::class, 'view_jamiat_settings']);
     Route::post('/update_jamiat_settings/{id}', [JamiatController::class, 'update_jamiat_settings']);
     Route::delete('/jamiat_settings/{id}', [JamiatController::class, 'delete_jamiat_settings']);
 
