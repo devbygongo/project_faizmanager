@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MumeneenController;
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\CSVImportController;
 use App\Http\Controllers\MenuCardController;
 use App\Http\Controllers\FeedbackController;
@@ -143,7 +144,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // food_sale
     Route::post('/food_sale', [InventoryController::class, 'register_food_sale']);
-    Route::get('/food_sale', [InventoryController::class, 'all_food_sale']);
+    Route::get('/food_sale', [InventoryController::class, 'all_food_sales']);
     Route::post('/update_food_sale/{id}', [InventoryController::class, 'update_food_sale']);
     Route::delete('/food_sale/{id}', [InventoryController::class, 'delete_food_sale']);
     
