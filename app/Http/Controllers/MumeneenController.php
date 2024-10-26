@@ -187,6 +187,8 @@ class MumeneenController extends Controller
             'name_arabic' => $request->input('name_arabic'),
         ]);
 
+        unset($register_its['id'], $register_its['created_at'], $register_its['updated_at']);
+
         return $register_its
             ? response()->json(['message' => 'Its registered successfully!', 'data' => $register_its], 201)
             : response()->json(['message' => 'Failed to register Its!'], 400);
@@ -277,6 +279,8 @@ class MumeneenController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
+        unset($register_sector['id'], $register_sector['created_at'], $register_sector['updated_at']);
+
         return $register_sector
             ? response()->json(['message' => 'sector created successfully!', 'data' => $register_sector], 201)
             : response()->json(['message' => 'Failed to create sector!'], 400);
@@ -348,6 +352,8 @@ class MumeneenController extends Controller
             'notes' => $request->input('notes'),
             'log_user' => $request->input('log_user'),
         ]);
+
+        unset($register_sub_sector['id'], $register_sub_sector['created_at'], $register_sub_sector['updated_at']);
 
         return $register_sub_sector
             ? response()->json(['message' => 'Sub-Sector created successfully!', 'data' => $register_sub_sector], 201)
@@ -433,6 +439,8 @@ class MumeneenController extends Controller
             'landmark' => $request->input('landmark'),
         ]);
 
+        unset($register_building['id'], $register_building['created_at'], $register_building['updated_at']);
+
         return $register_building
             ? response()->json(['message' => 'Building  created successfully!', 'data' => $register_building], 201)
             : response()->json(['message' => 'Failed to create Building!'], 400);
@@ -512,6 +520,8 @@ class MumeneenController extends Controller
             'jamiat_id' => $request->input('jamiat_id'),
             'is_current' => $request->input('is_current'),
         ]);
+
+        unset($register_year['id'], $register_year['created_at'], $register_year['updated_at']);
 
         return $register_year
             ? response()->json(['message' => 'Year created successfully!', 'data' => $register_year], 201)
@@ -593,6 +603,8 @@ class MumeneenController extends Controller
             'category' => $request->input('category'),
             'status' => $request->input('status'),
         ]);
+
+        unset($register_menu['id'], $register_menu['created_at'], $register_menu['updated_at']);
 
         return $register_menu
             ? response()->json(['message' => 'Menu created successfully!', 'data' => $register_menu], 201)
@@ -676,6 +688,8 @@ class MumeneenController extends Controller
             'status' => $request->input('status'),
         ]);
 
+        unset($register_fcm['id'], $register_fcm['created_at'], $register_fcm['updated_at']);
+
         return $register_fcm
             ? response()->json(['message' => 'FCM Token registered successfully!', 'data' => $register_fcm], 201)
             : response()->json(['message' => 'Failed to register FCM token!'], 400);
@@ -753,6 +767,8 @@ class MumeneenController extends Controller
             'due_amount' => $request->input('due_amount'),
             'log_user' => $request->input('log_user'),
         ]);
+
+        unset($register_hub['id'], $register_hub['created_at'], $register_hub['updated_at']);
 
         return $register_hub
             ? response()->json(['message' => 'Hub record created successfully!', 'data' => $register_hub], 201)
@@ -837,6 +853,8 @@ class MumeneenController extends Controller
             'due_amount' => $request->input('due_amount'),
             'log_user' => $request->input('log_user'),
         ]);
+
+        unset($register_zabihat['id'], $register_zabihat['created_at'], $register_zabihat['updated_at']);
 
         return $register_zabihat
             ? response()->json(['message' => 'Zabihat record created successfully!', 'data' => $register_zabihat], 201)

@@ -32,6 +32,8 @@ class AccountsController extends Controller
             'value' => $request->input('value'),
         ]);
 
+        unset($register_counter['id'], $register_counter['created_at'], $register_counter['updated_at']);
+
         return $register_counter
             ? response()->json(['message' => 'Counter record created successfully!', 'data' => $register_counter], 201)
             : response()->json(['message' => 'Failed to create counter record!'], 400);
@@ -72,7 +74,7 @@ class AccountsController extends Controller
             'value' => $request->input('value'),
         ]);
 
-        return $update_counter_record
+        return ($update_counter_record == 1)
             ? response()->json(['message' => 'Counter record updated successfully!', 'data' => $update_counter_record], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -107,6 +109,8 @@ class AccountsController extends Controller
             'sector' => $request->input('sector'),
             'sub_sector' => $request->input('sub_sector'),
         ]);
+
+        unset($register_advance_receipt['id'], $register_advance_receipt['created_at'], $register_advance_receipt['updated_at']);
 
         return $register_advance_receipt
             ? response()->json(['message' => 'Advance Receipt created successfully!', 'data' => $register_advance_receipt], 201)
@@ -150,7 +154,7 @@ class AccountsController extends Controller
             'sub_sector' => $request->input('sub_sector'),
         ]);
 
-        return $update_advance_receipt
+        return ($update_advance_receipt == 1)
             ? response()->json(['message' => 'Advance Receipt updated successfully!', 'data' => $update_advance_receipt], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -191,6 +195,8 @@ class AccountsController extends Controller
             'log_user' => $request->input('log_user'),
             'attachment' => $request->input('attachment'),
         ]);
+
+        unset($register_expense['id'], $register_expense['created_at'], $register_expense['updated_at']);
 
         return $register_expense
             ? response()->json(['message' => 'Expense created successfully!', 'data' => $register_expense], 201)
@@ -240,7 +246,7 @@ class AccountsController extends Controller
             'attachment' => $request->input('attachment'),
         ]);
 
-        return $update_expense
+        return ($update_expense == 1)
             ? response()->json(['message' => 'Expense updated successfully!', 'data' => $update_expense], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -310,6 +316,8 @@ class AccountsController extends Controller
             'attachment' => $request->input('attachment'),
         ]);
 
+        unset($register_payment['id'], $register_payment['created_at'], $register_payment['updated_at']);
+
         return $register_payment
             ? response()->json(['message' => 'Payment created successfully!', 'data' => $register_payment], 201)
             : response()->json(['message' => 'Failed to create payment!'], 400);
@@ -360,9 +368,34 @@ class AccountsController extends Controller
             'attachment' => 'nullable|integer',
         ]);
 
-        $update_payment = $get_payment->update($request->all());
+        // $update_payment = $get_payment->update($request->all());
+        $update_payment = $get_payment->update([
+            'payment_no' => $request->input('payment_no'),
+            'jamiat_id' => $request->input('jamiat_id'),
+            'family_id' => $request->input('family_id'),
+            'folio_no' => $request->input('folio_no'),
+            'name' => $request->input('name'),
+            'its' => $request->input('its'),
+            'sector' => $request->input('sector'),
+            'sub_sector' => $request->input('sub_sector'),
+            'year' => $request->input('year'),
+            'mode' => $request->input('mode'),
+            'date' => $request->input('date'),
+            'bank_name' => $request->input('bank_name'),
+            'cheque_no' => $request->input('cheque_no'),
+            'cheque_date' => $request->input('cheque_date'),
+            'ifsc_code' => $request->input('ifsc_code'),
+            'transaction_id' => $request->input('transaction_id'),
+            'transaction_date' => $request->input('transaction_date'),
+            'amount' => $request->input('amount'),
+            'comments' => $request->input('comments'),
+            'status' => $request->input('status'),
+            'cancellation_reason' => $request->input('cancellation_reason'),
+            'log_user' => $request->input('log_user'),
+            'attachment' => $request->input('attachment'),
+        ]);
 
-        return $update_payment
+        return ($update_payment == 1)
             ? response()->json(['message' => 'Payment updated successfully!', 'data' => $update_payment], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -408,7 +441,36 @@ class AccountsController extends Controller
             'payment_id' => 'required|integer',
         ]);
 
-        $register_receipt = ReceiptsModel::create($request->all());
+        // $register_receipt = ReceiptsModel::create($request->all());
+        $register_receipt = ReceiptsModel::create([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'family_id' => $request->input('family_id'),
+            'receipt_no' => $request->input('receipt_no'),
+            'date' => $request->input('date'),
+            'its' => $request->input('its'),
+            'folio_no' => $request->input('folio_no'),
+            'name' => $request->input('name'),
+            'sector' => $request->input('sector'),
+            'sub_sector' => $request->input('sub_sector'),
+            'amount' => $request->input('amount'),
+            'mode' => $request->input('mode'),
+            'bank_name' => $request->input('bank_name'),
+            'cheque_no' => $request->input('cheque_no'),
+            'cheque_date' => $request->input('cheque_date'),
+            'ifsc_code' => $request->input('ifsc_code'),
+            'transaction_id' => $request->input('transaction_id'),
+            'transaction_date' => $request->input('transaction_date'),
+            'year' => $request->input('year'),
+            'comments' => $request->input('comments'),
+            'status' => $request->input('status'),
+            'cancellation_reason' => $request->input('cancellation_reason'),
+            'collected_by' => $request->input('collected_by'),
+            'log_user' => $request->input('log_user'),
+            'attachment' => $request->input('attachment'),
+            'payment_id' => $request->input('payment_id'),
+        ]);
+
+        unset($register_receipt['id'], $register_receipt['created_at'], $register_receipt['updated_at']);
 
         return $register_receipt
             ? response()->json(['message' => 'Receipt created successfully!', 'data' => $register_receipt], 201)
@@ -466,9 +528,37 @@ class AccountsController extends Controller
             'payment_id' => 'required|integer',
         ]);
 
-        $update_receipt_record = $get_receipt->update($request->all());
+        // $update_receipt_record = $get_receipt->update($request->all());
+        $update_receipt_record = $get_receipt->update([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'family_id' => $request->input('family_id'),
+            'receipt_no' => $request->input('receipt_no'),
+            'date' => $request->input('date'),
+            'its' => $request->input('its'),
+            'folio_no' => $request->input('folio_no'),
+            'name' => $request->input('name'),
+            'sector' => $request->input('sector'),
+            'sub_sector' => $request->input('sub_sector'),
+            'amount' => $request->input('amount'),
+            'mode' => $request->input('mode'),
+            'bank_name' => $request->input('bank_name'),
+            'cheque_no' => $request->input('cheque_no'),
+            'cheque_date' => $request->input('cheque_date'),
+            'ifsc_code' => $request->input('ifsc_code'),
+            'transaction_id' => $request->input('transaction_id'),
+            'transaction_date' => $request->input('transaction_date'),
+            'year' => $request->input('year'),
+            'comments' => $request->input('comments'),
+            'status' => $request->input('status'),
+            'cancellation_reason' => $request->input('cancellation_reason'),
+            'collected_by' => $request->input('collected_by'),
+            'log_user' => $request->input('log_user'),
+            'attachment' => $request->input('attachment'),
+            'payment_id' => $request->input('payment_id'),
+        ]);
+    
 
-        return $update_receipt_record
+        return ($update_receipt_record == 1)
             ? response()->json(['message' => 'Receipt updated successfully!', 'data' => $update_receipt_record], 200)
             : response()->json(['No changes detected'], 304);
     }

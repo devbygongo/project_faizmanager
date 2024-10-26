@@ -25,6 +25,8 @@ class MenuCardController extends Controller
             'dish' => $request->input('dish'),
         ]);
 
+        unset($register_menu_card['id'], $register_menu_card['created_at'], $register_menu_card['updated_at']);
+
         return $register_menu_card
             ? response()->json(['message' => 'Menu card entry created successfully!', 'data' => $register_menu_card], 201)
             : response()->json(['message' => 'Failed to create menu card entry!'], 400);
@@ -90,6 +92,8 @@ class MenuCardController extends Controller
             'name' => $request->input('name'),
             'log_user' => $request->input('log_user'),
         ]);
+
+        unset($register_dish['id'], $register_dish['created_at'], $register_dish['updated_at']);
 
         return $register_dish
             ? response()->json(['message' => 'Dish created successfully!', 'data' => $register_dish], 201)
@@ -160,6 +164,8 @@ class MenuCardController extends Controller
             'quantity' => $request->input('quantity'),
             'unit' => $request->input('unit'),
         ]);
+
+        unset($register_dish_item['id'], $register_dish_item['created_at'], $register_dish_item['updated_at']);
 
         return $register_dish_item
             ? response()->json(['message' => 'Dish Item created successfully!', 'data' => $register_dish_item], 201)

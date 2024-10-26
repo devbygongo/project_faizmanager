@@ -40,7 +40,31 @@ class InventoryController extends Controller
             'status' => 'required|string|max:50',
         ]);
 
-        $register_vendor = VendorsModel::create($request->all());
+        // $register_vendor = VendorsModel::create($request->all());
+        $register_vendor = VendorsModel::create([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'vendor_id' => $request->input('vendor_id'),
+            'name' => $request->input('name'),
+            'company_name' => $request->input('company_name'),
+            'group' => $request->input('group'),
+            'mobile' => $request->input('mobile'),
+            'email' => $request->input('email'),
+            'pan_card' => $request->input('pan_card'),
+            'address_line_1' => $request->input('address_line_1'),
+            'address_line_2' => $request->input('address_line_2'),
+            'city' => $request->input('city'),
+            'pincode' => $request->input('pincode'),
+            'state' => $request->input('state'),
+            'bank_name' => $request->input('bank_name'),
+            'bank_account_no' => $request->input('bank_account_no'),
+            'bank_ifsc' => $request->input('bank_ifsc'),
+            'bank_account_name' => $request->input('bank_account_name'),
+            'vpa' => $request->input('vpa'),
+            'status' => $request->input('status'),
+        ]);
+
+        unset($register_vendor['id'], $register_vendor['created_at'], $register_vendor['updated_at']);
+
 
         return $register_vendor
             ? response()->json(['message' => 'Vendor created successfully!', 'data' => $register_vendor], 201)
@@ -92,9 +116,30 @@ class InventoryController extends Controller
             'status' => 'required|string|max:50',
         ]);
 
-        $update_vendor_record = $get_vendor->update($request->all());
+        // $update_vendor_record = $get_vendor->update($request->all());
+        $update_vendor_record = $get_vendor->update([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'vendor_id' => $request->input('vendor_id'),
+            'name' => $request->input('name'),
+            'company_name' => $request->input('company_name'),
+            'group' => $request->input('group'),
+            'mobile' => $request->input('mobile'),
+            'email' => $request->input('email'),
+            'pan_card' => $request->input('pan_card'),
+            'address_line_1' => $request->input('address_line_1'),
+            'address_line_2' => $request->input('address_line_2'),
+            'city' => $request->input('city'),
+            'pincode' => $request->input('pincode'),
+            'state' => $request->input('state'),
+            'bank_name' => $request->input('bank_name'),
+            'bank_account_no' => $request->input('bank_account_no'),
+            'bank_ifsc' => $request->input('bank_ifsc'),
+            'bank_account_name' => $request->input('bank_account_name'),
+            'vpa' => $request->input('vpa'),
+            'status' => $request->input('status'),
+        ]);
 
-        return $update_vendor_record
+        return ($update_vendor_record == 1)
             ? response()->json(['message' => 'Vendor updated successfully!', 'data' => $update_vendor_record], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -136,6 +181,8 @@ class InventoryController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
+        unset($register_food_item['id'], $register_food_item['created_at'], $register_food_item['updated_at']);
+
         return $register_food_item
             ? response()->json(['message' => 'Food item created successfully!', 'data' => $register_food_item], 201)
             : response()->json(['message' => 'Failed to create food item!'], 400);
@@ -173,9 +220,20 @@ class InventoryController extends Controller
             'log_user' => 'required|string|max:100',
         ]);
 
-        $update_food_item_record = $get_food_item->update($request->all());
+        // $update_food_item_record = $get_food_item->update($request->all());
+        $update_food_item_record = $get_food_item->update([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'name' => $request->input('name'),
+            'category' => $request->input('category'),
+            'unit' => $request->input('unit'),
+            'rate' => $request->input('rate'),
+            'hsn' => $request->input('hsn'),
+            'tax' => $request->input('tax'),
+            'log_user' => $request->input('log_user'),
+        ]);
+    
 
-        return $update_food_item_record
+        return ($update_food_item_record == 1)
             ? response()->json(['message' => 'Food item updated successfully!', 'data' => $update_food_item_record], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -208,6 +266,8 @@ class InventoryController extends Controller
             'remarks' => $request->input('remarks'),
             'log_user' => $request->input('log_user'),
         ]);
+
+        unset($register_damage_lost['id'], $register_damage_lost['created_at'], $register_damage_lost['updated_at']);
 
         return $register_damage_lost
             ? response()->json(['message' => 'Damage/Lost record created successfully!', 'data' => $register_damage_lost], 201)
@@ -243,9 +303,16 @@ class InventoryController extends Controller
             'log_user' => 'required|string|max:100',
         ]);
 
-        $update_damage_lost_record = $get_damage_lost->update($request->all());
+        // $update_damage_lost_record = $get_damage_lost->update($request->all());
+        $update_damage_lost_record = $get_damage_lost->update([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'food_item_id' => $request->input('food_item_id'),
+            'quantity' => $request->input('quantity'),
+            'remarks' => $request->input('remarks'),
+            'log_user' => $request->input('log_user'),
+        ]);
 
-        return $update_damage_lost_record
+        return ($update_damage_lost_record == 1)
             ? response()->json(['message' => 'Record updated successfully!', 'data' => $update_damage_lost_record], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -285,6 +352,8 @@ class InventoryController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
+        unset($register_food_purchase['id'], $register_food_purchase['created_at'], $register_food_purchase['updated_at']);
+
         return $register_food_purchase
             ? response()->json(['message' => 'Food purchase record created successfully!', 'data' => $register_food_purchase], 201)
             : response()->json(['message' => 'Failed to create food purchase record!'], 400);
@@ -322,9 +391,19 @@ class InventoryController extends Controller
             'log_user' => 'required|string|max:100',
         ]);
 
-        $update_food_purchase_record = $get_food_purchase->update($request->all());
+        // $update_food_purchase_record = $get_food_purchase->update($request->all());
+        $update_food_purchase_record = $get_food_purchase->update([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'vendor_id' => $request->input('vendor_id'),
+            'invoice_no' => $request->input('invoice_no'),
+            'date' => $request->input('date'),
+            'remarks' => $request->input('remarks'),
+            'attachment' => $request->input('attachment'),
+            'total' => $request->input('total'),
+            'log_user' => $request->input('log_user'),
+        ]);
 
-        return $update_food_purchase_record
+        return ($update_food_purchase_record == 1)
             ? response()->json(['message' => 'Food purchase record updated successfully!', 'data' => $update_food_purchase_record], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -364,6 +443,8 @@ class InventoryController extends Controller
             'tax' => $request->input('tax'),
         ]);
 
+        unset($register_food_purchase_item['id'], $register_food_purchase_item['created_at'], $register_food_purchase_item['updated_at']);
+
         return $register_food_purchase_item
             ? response()->json(['message' => 'Food Purchase Item created successfully!', 'data' => $register_food_purchase_item], 201)
             : response()->json(['message' => 'Failed to create Food Purchase Item!'], 400);
@@ -401,9 +482,19 @@ class InventoryController extends Controller
             'tax' => 'nullable|numeric',
         ]);
 
-        $update_food_purchase_item = $get_food_purchase_item->update($request->all());
+        // $update_food_purchase_item = $get_food_purchase_item->update($request->all());
+        $update_food_purchase_item = $get_food_purchase_item->update([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'purchase_id' => $request->input('purchase_id'),
+            'food_item_id' => $request->input('food_item_id'),
+            'quantity' => $request->input('quantity'),
+            'unit' => $request->input('unit'),
+            'rate' => $request->input('rate'),
+            'discount' => $request->input('discount'),
+            'tax' => $request->input('tax'),
+        ]);
 
-        return $update_food_purchase_item
+        return ($update_food_purchase_item == 1)
             ? response()->json(['message' => 'Food Purchase Item updated successfully!', 'data' => $update_food_purchase_item], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -443,6 +534,8 @@ class InventoryController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
+        unset($register_food_sale['id'], $register_food_sale['created_at'], $register_food_sale['updated_at']);
+
         return $register_food_sale
             ? response()->json(['message' => 'Food sale record created successfully!', 'data' => $register_food_sale], 201)
             : response()->json(['message' => 'Failed to create food sale record!'], 400);
@@ -480,9 +573,19 @@ class InventoryController extends Controller
             'log_user' => 'required|string|max:100',
         ]);
 
-        $update_food_sale_record = $get_food_sale->update($request->all());
+        // $update_food_sale_record = $get_food_sale->update($request->all());
+        $update_food_sale_record = $get_food_sale->update([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'name' => $request->input('name'),
+            'menu' => $request->input('menu'),
+            'family_id' => $request->input('family_id'),
+            'date' => $request->input('date'),
+            'thaal_count' => $request->input('thaal_count'),
+            'total' => $request->input('total'),
+            'log_user' => $request->input('log_user'),
+        ]);
 
-        return $update_food_sale_record
+        return ($update_food_sale_record == 1)
             ? response()->json(['message' => 'Food sale record updated successfully!', 'data' => $update_food_sale_record], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -517,6 +620,8 @@ class InventoryController extends Controller
             'unit' => $request->input('unit'),
             'rate' => $request->input('rate'),
         ]);
+
+        unset($register_food_sale_item['id'], $register_food_sale_item['created_at'], $register_food_sale_item['updated_at']);
 
         return $register_food_sale_item
             ? response()->json(['message' => 'Food Sale Item created successfully!', 'data' => $register_food_sale_item], 201)
@@ -553,9 +658,17 @@ class InventoryController extends Controller
             'rate' => 'required|numeric',
         ]);
 
-        $update_food_sale_item = $get_food_sale_item->update($request->all());
+        // $update_food_sale_item = $get_food_sale_item->update($request->all());
+        $update_food_sale_item = $get_food_sale_item->update([
+            'jamiat_id' => $request->input('jamiat_id'),
+            'sale_id' => $request->input('sale_id'),
+            'food_item_id' => $request->input('food_item_id'),
+            'quantity' => $request->input('quantity'),
+            'unit' => $request->input('unit'),
+            'rate' => $request->input('rate'),
+        ]);
 
-        return $update_food_sale_item
+        return ($update_food_sale_item == 1)
             ? response()->json(['message' => 'Food Sale Item updated successfully!', 'data' => $update_food_sale_item], 200)
             : response()->json(['No changes detected'], 304);
     }

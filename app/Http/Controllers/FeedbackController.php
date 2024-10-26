@@ -32,6 +32,8 @@ class FeedbackController extends Controller
             'attachment' => $request->input('attachment')
         ]);
 
+        unset($feedback['id'], $feedback['created_at'], $feedback['updated_at']);
+
         return $feedback
             ? response()->json(['message' => 'Feedback created successfully!', 'data' => $feedback], 201)
             : response()->json(['message' => 'Failed to create feedback!'], 400);
@@ -66,7 +68,7 @@ class FeedbackController extends Controller
             'attachment' => 'nullable|string'
         ]);
 
-        $feedback->update([
+        $update_feedback = $feedback->update([
             'jamiat_id' => $request->input('jamiat_id'),
             'family_id' => $request->input('family_id'),
             'date' => $request->input('date'),
@@ -76,7 +78,9 @@ class FeedbackController extends Controller
             'attachment' => $request->input('attachment')
         ]);
 
-        return response()->json(['message' => 'Feedback updated successfully!', 'data' => $feedback], 200);
+        return ($update_feedback == 1)
+            ? response()->json(['message' => 'Feedback updated successfully!', 'data' => $update_feedback], 200)
+            : response()->json(['No changes detected'], 304);
     }
 
     // delete
@@ -116,6 +120,8 @@ class FeedbackController extends Controller
             'attachment' => $request->input('attachment')
         ]);
 
+        unset($feedback_response['id'], $feedback_response['created_at'], $feedback_response['updated_at']);
+
         return $feedback_response
             ? response()->json(['message' => 'Feedback response created successfully!', 'data' => $feedback_response], 201)
             : response()->json(['message' => 'Failed to create feedback response!'], 400);
@@ -150,7 +156,7 @@ class FeedbackController extends Controller
             'attachment' => 'nullable|string'
         ]);
 
-        $feedback_response->update([
+        $update_feedback_response = $feedback_response->update([
             'jamiat_id' => $request->input('jamiat_id'),
             'family_id' => $request->input('family_id'),
             'feedback_id' => $request->input('feedback_id'),
@@ -160,7 +166,9 @@ class FeedbackController extends Controller
             'attachment' => $request->input('attachment')
         ]);
 
-        return response()->json(['message' => 'Feedback response updated successfully!', 'data' => $feedback_response], 200);
+        return ($update_feedback_response == 1)
+            ? response()->json(['message' => 'Feedback response updated successfully!', 'data' => $update_feedback_response], 200)
+            : response()->json(['No changes detected'], 304);
     }
 
     // delete

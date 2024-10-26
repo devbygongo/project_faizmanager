@@ -48,6 +48,8 @@ class JamiatController extends Controller
             'logs' => $request->input('logs')
         ]);
 
+        unset($jamiat['id'], $jamiat['created_at'], $jamiat['updated_at']);
+
         return $jamiat
             ? response()->json(['message' => 'Jamiat created successfully!', 'data' => $jamiat], 201)
             : response()->json(['message' => 'Failed to create Jamiat!'], 400);
@@ -89,7 +91,7 @@ class JamiatController extends Controller
             'logs' => 'nullable|string',
         ]);
 
-        $update_dish_item = $jamiat->update([
+        $update_jamiat = $jamiat->update([
             'name' => $request->input('name'),
             'mobile' => $request->input('mobile'),
             'email' => $request->input('email'),
@@ -106,8 +108,8 @@ class JamiatController extends Controller
             'logs' => $request->input('logs')
         ]);
 
-        return ($update_dish_item == 1)
-            ? response()->json(['message' => 'Jamiat updated successfully!', 'data' => $update_dish_item], 200)
+        return ($update_jamiat == 1)
+            ? response()->json(['message' => 'Jamiat updated successfully!', 'data' => $update_jamiat], 200)
             : response()->json(['No changes detected'], 304);
     }
     // delete
@@ -139,6 +141,8 @@ class JamiatController extends Controller
             'name' => $request->input('name'),
             'value' => $request->input('value')
         ]);
+
+        unset($jamiat_setting['id'], $jamiat_setting['created_at'], $jamiat_setting['updated_at']);
 
         return isset($jamiat_setting)
             ? response()->json(['message' => 'Setting created successfully!', 'data' => $jamiat_setting], 201)
@@ -221,6 +225,8 @@ class JamiatController extends Controller
             'notes' => $request->input('notes')
         ]);
 
+        unset($receipt['id'], $receipt['created_at'], $receipt['updated_at']);
+
         return isset($receipt)
             ? response()->json(['message' => 'Receipt created successfully!', 'data' => $receipt], 201)
             : response()->json(['message' => 'Failed to create receipt!'], 400);
@@ -301,6 +307,8 @@ class JamiatController extends Controller
             'key' => $request->input('key'),
             'value' => $request->input('value'),
         ]);
+
+        unset($counter_entry['id'], $counter_entry['created_at'], $counter_entry['updated_at']);
 
         return isset($counter_entry)
             ? response()->json(['message' => 'Counter entry created successfully!', 'data' => $counter_entry], 201)
