@@ -173,13 +173,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // feedback
     Route::post('/feedback', [FeedbackController::class, 'register_feedback']);
-    Route::get('/feedback', [FeedbackController::class, 'all_feedbacks']);
+    Route::get('/feedback', [FeedbackController::class, 'view_feedbacks']);
     Route::post('/update_feedback/{id}', [FeedbackController::class, 'update_feedback']);
     Route::delete('/feedback/{id}', [FeedbackController::class, 'delete_feedback']);
 
     // feedback_responses
     Route::post('/feedback_responses', [FeedbackController::class, 'register_feedback_response']);
-    Route::get('/feedback_responses', [FeedbackController::class, 'all_feedback_responses']);
+    Route::get('/feedback_responses', [FeedbackController::class, 'view_feedback_responses']);
     Route::post('/update_feedback_responses/{id}', [FeedbackController::class, 'update_feedback_response']);
     Route::delete('/feedback_responses/{id}', [FeedbackController::class, 'delete_feedback_response']);
 
