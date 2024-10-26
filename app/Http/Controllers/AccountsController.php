@@ -265,7 +265,7 @@ class AccountsController extends Controller
     public function register_payments(Request $request)
     {
         $request->validate([
-            'payment_no' => 'required|string|unique:payments,payment_no|max:100',
+            'payment_no' => 'required|string|unique:t_payments,payment_no|max:100',
             'jamiat_id' => 'required|string|max:10',
             'family_id' => 'required|string|max:10',
             'folio_no' => 'nullable|string|max:20',
@@ -326,7 +326,7 @@ class AccountsController extends Controller
     // view
     public function all_payments()
     {
-        $get_all_payments = PaymentsModels::select('payment_no', 'jamiat_id', 'family_id', 'folio_no', 'name', 'its', 'sector', 'sub_sector', 'year', 'mode', 'date', 'amount', 'status', 'log_user')->get();
+        $get_all_payments = PaymentsModel::select('payment_no', 'jamiat_id', 'family_id', 'folio_no', 'name', 'its', 'sector', 'sub_sector', 'year', 'mode', 'date', 'bank_name', 'cheque_no', 'cheque_date', 'ifsc_code', 'transaction_id', 'transaction_date', 'amount', 'comments', 'status', 'cancellation_reason', 'log_user', 'attachment')->get();
 
         return $get_all_payments->isNotEmpty()
             ? response()->json(['message' => 'Payments fetched successfully!', 'data' => $get_all_payments], 200)
@@ -336,14 +336,14 @@ class AccountsController extends Controller
     // update
     public function update_payments(Request $request, $id)
     {
-        $get_payment = PaymentsModels::find($id);
+        $get_payment = PaymentsModel::find($id);
 
         if (!$get_payment) {
             return response()->json(['message' => 'Payment not found!'], 404);
         }
 
         $request->validate([
-            'payment_no' => 'required|string|max:100|unique:payments,payment_no,' . $id,
+            'payment_no' => 'required|string|max:100|unique:t_payments,payment_no,' . $id,
             'jamiat_id' => 'required|string|max:10',
             'family_id' => 'required|string|max:10',
             'folio_no' => 'nullable|string|max:20',
@@ -483,7 +483,7 @@ class AccountsController extends Controller
         $get_all_receipts = ReceiptsModel::select(
             'jamiat_id', 'family_id', 'receipt_no', 'date', 'its', 'folio_no', 'name',
             'sector', 'sub_sector', 'amount', 'mode', 'bank_name', 'cheque_no', 'cheque_date',
-            'ifsc_code', 'transaction_id', 'transaction_date', 'year', 'status', 'log_user'
+            'ifsc_code', 'transaction_id', 'transaction_date', 'year', 'comments', 'status', 'cancellation_reason', 'collected_by', 'log_user', 'attachment', 'payment_id'
         )->get();
 
         return $get_all_receipts->isNotEmpty()
