@@ -17,7 +17,7 @@ class JamiatController extends Controller
         $request->validate([
             'name' => 'required|string|max:150',
             'mobile' => 'required|string|max:20',
-            'email' => 'required|string|email|max:150|unique:jamiats,email',
+            'email' => 'required|string|email|max:150|unique:t_jamiat,email',
             'package' => 'required|integer',
             'billing_address' => 'nullable|string',
             'billing_contact' => 'nullable|string|max:150',
@@ -75,7 +75,7 @@ class JamiatController extends Controller
         $request->validate([
             'name' => 'required|string|max:150',
             'mobile' => 'required|string|max:20',
-            'email' => 'required|string|email|max:150|unique:jamiats,email,' . $id,
+            'email' => 'required|string|email|max:150|unique:t_jamiat,email,' . $id,
             'package' => 'required|integer',
             'billing_address' => 'nullable|string',
             'billing_contact' => 'nullable|string|max:150',
@@ -89,7 +89,7 @@ class JamiatController extends Controller
             'logs' => 'nullable|string',
         ]);
 
-        $jamiat->update([
+        $update_dish_item = $jamiat->update([
             'name' => $request->input('name'),
             'mobile' => $request->input('mobile'),
             'email' => $request->input('email'),
@@ -106,7 +106,9 @@ class JamiatController extends Controller
             'logs' => $request->input('logs')
         ]);
 
-        return response()->json(['message' => 'Jamiat updated successfully!', 'data' => $jamiat], 200);
+        return ($update_dish_item == 1)
+            ? response()->json(['message' => 'Jamiat updated successfully!', 'data' => $update_dish_item], 200)
+            : response()->json(['No changes detected'], 304);
     }
     // delete
     public function delete_jamiat($id)
@@ -156,9 +158,9 @@ class JamiatController extends Controller
     // update
     public function update_jamiat_settings(Request $request, $id)
     {
-        $jamiat_setting = JamiatSettingsModel::find($id);
+        $jamiat_settings = JamiatSettingsModel::find($id);
 
-        if (!$jamiat_setting) {
+        if (!$jamiat_settings) {
             return response()->json(['message' => 'Setting not found!'], 404);
         }
 
@@ -168,13 +170,16 @@ class JamiatController extends Controller
             'value' => 'required|string'
         ]);
 
-        $jamiat_setting->update([
+        $update_jamiat_settings = $jamiat_settings->update([
             'jamiat_id' => $request->input('jamiat_id'),
             'name' => $request->input('name'),
             'value' => $request->input('value')
         ]);
 
-        return response()->json(['message' => 'Setting updated successfully!', 'data' => $jamiat_setting], 200);
+        return ($update_jamiat_settings == 1)
+            ? response()->json(['message' => 'Jamiat settings updated successfully!', 'data' => $update_jamiat_settings], 200)
+            : response()->json(['No changes detected'], 304);
+
     }
 
     // delete
@@ -254,7 +259,7 @@ class JamiatController extends Controller
         ]);
 
         // Update the receipt record
-        $receipt->update([
+        $update_receipt = $receipt->update([
             'jamiat_id' => $request->input('jamiat_id'),
             'amount' => $request->input('amount'),
             'package' => $request->input('package'),
@@ -264,7 +269,9 @@ class JamiatController extends Controller
             'notes' => $request->input('notes')
         ]);
 
-        return response()->json(['message' => 'Receipt updated successfully!', 'data' => $receipt], 200);
+        return ($update_receipt == 1)
+            ? response()->json(['message' => 'Receipt updated successfully!', 'data' => $update_receipt], 200)
+            : response()->json(['No changes detected'], 304);
     }
 
     public function delete_super_admin_receipt($id)
@@ -311,23 +318,27 @@ class JamiatController extends Controller
     }
 
     // update
-    public function update_super_admin_counter(Request $request, $key)
+    public function update_super_admin_counter(Request $request, $id)
     {
-        $counter_entry = SuperAdminCounterModel::where('key', $key)->first();
+        $counter_entry = SuperAdminCounterModel::find($id);
 
         if (!$counter_entry) {
             return response()->json(['message' => 'Counter entry not found!'], 404);
         }
 
         $request->validate([
+            'key' => 'required|string',
             'value' => 'required|string',
         ]);
 
-        $counter_entry->update([
+        $update_counter_entry = $counter_entry->update([
+            'key' => $request->input('key'),
             'value' => $request->input('value'),
         ]);
 
-        return response()->json(['message' => 'Counter entry updated successfully!', 'data' => $counter_entry], 200);
+        return ($update_counter_entry == 1)
+            ? response()->json(['message' => 'Super-Admin counter updated successfully!', 'data' => $update_counter_entry], 200)
+            : response()->json(['No changes detected'], 304);
     }
 
     // delete

@@ -17,6 +17,7 @@ Route::post('/get_otp', [AuthController::class, 'generate_otp']);
 Route::post('/login/{id?}', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::post('/import_users', [CSVImportController::class, 'importUser']);
@@ -184,7 +185,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // jamiat
     Route::post('/jamiat', [JamiatController::class, 'register_jamiat']);
-    Route::get('/jamiat', [JamiatController::class, 'all_jamiat']);
+    Route::get('/jamiat', [JamiatController::class, 'view_jamiats']);
     Route::post('/update_jamiat/{id}', [JamiatController::class, 'update_jamiat']);
     Route::delete('/jamiat/{id}', [JamiatController::class, 'delete_jamiat']);
 
@@ -196,13 +197,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // super_admin_receipt
     Route::post('/super_admin_receipt', [JamiatController::class, 'register_super_admin_receipts']);
-    Route::get('/super_admin_receipt', [JamiatController::class, 'all_super_admin_receipts']);
+    Route::get('/super_admin_receipt', [JamiatController::class, 'view_super_admin_receipts']);
     Route::post('/update_super_admin_receipt/{id}', [JamiatController::class, 'update_super_admin_receipt']);
     Route::delete('/super_admin_receipt/{id}', [JamiatController::class, 'delete_super_admin_receipt']);
 
     // super_admin_counter
     Route::post('/super_admin_counter', [JamiatController::class, 'register_super_admin_counter']);
-    Route::get('/super_admin_counter', [JamiatController::class, 'all_super_admin_counters']);
+    Route::get('/super_admin_counter', [JamiatController::class, 'view_super_admin_counters']);
     Route::post('/update_super_admin_counter/{id}', [JamiatController::class, 'update_super_admin_counter']);
     Route::delete('/super_admin_counter/{id}', [JamiatController::class, 'delete_super_admin_counter']);
     

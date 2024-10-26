@@ -25,6 +25,7 @@ class MumeneenController extends Controller
             'name' => 'required|string',
             'email' => 'required|unique:users,email',
             'password' => 'required|string',
+            'jamiat_id' => 'required|integer',
             'family_id' => 'required|string|max:10',
             'its' => 'required|unique:users,its|max:8',
             'hof_its' => 'required|string|max:8',
@@ -39,12 +40,14 @@ class MumeneenController extends Controller
             'age' => 'nullable|integer',
             'role' => 'required|in:superadmin,jamiat_admin,mumeneen',
             'status' => 'required|in:active,inactive',
+            'username' => 'required|string',
         ]);
 
         $register_user = User::create([
             'name' => $request->input('name'),
             'email' => strtolower($request->input('email')),
             'password' => bcrypt($request->input('password')),
+            'jamiat_id' => $request->input('jamiat_id'),
             'family_id' => $request->input('family_id'),
             'its' => $request->input('its'),
             'hof_its' => $request->input('hof_its'),
@@ -59,6 +62,7 @@ class MumeneenController extends Controller
             'sub_sector' => $request->input('sub_sector'),
             'role' => $request->input('role'),
             'status' => $request->input('status'),
+            'username' => $request->input('username'),
         ]);
 
         unset($register_user['id'], $register_user['created_at'], $register_user['updated_at']);
@@ -241,7 +245,7 @@ class MumeneenController extends Controller
             'name_arabic' => $request->input('name_arabic'),
         ]);
 
-        return $update_its_record
+        return ($update_its_record == 1)
             ? response()->json(['message' => 'Its record updated successfully!', 'data' => $update_its_record], 200)
             : response()->json(['message' => 'No changes detected!'], 304);
     }
@@ -311,7 +315,7 @@ class MumeneenController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
-        return $update_sector_record
+        return ($update_sector_record == 1)
             ? response()->json(['message' => 'Sector record updated successfully!', 'data' => $update_sector_record], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -385,7 +389,7 @@ class MumeneenController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
-        return $update_sub_sector_record
+        return ($update_sub_sector_record == 1)
             ? response()->json(['message' => 'Sub-Sector record updated successfully!', 'data' => $update_sub_sector_record], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -479,7 +483,7 @@ class MumeneenController extends Controller
             'landmark' => $request->input('landmark'),
         ]);
 
-        return $update_building
+        return ($update_building == 1)
             ? response()->json(['message' => 'Building fetchedted successfully!', 'data' => $update_building], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -545,7 +549,7 @@ class MumeneenController extends Controller
             'is_current' => $request->input('is_current'),
         ]);
 
-        return $update_year_record
+        return ($update_year_record == 1)
             ? response()->json(['message' => 'Year updated successfully!', 'data' => $update_year_record], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -640,7 +644,7 @@ class MumeneenController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        return $update_menu_record
+        return ($update_menu_record == 1)
             ? response()->json(['message' => 'Menu updated successfully!', 'data' => $update_menu_record], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -710,7 +714,7 @@ class MumeneenController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        return $update_fcm_record
+        return ($update_fcm_record == 1)
             ? response()->json(['message' => 'FCM Token updated successfully!', 'data' => $update_fcm_record], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -794,7 +798,7 @@ class MumeneenController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
-        return $update_hub_record
+        return ($update_hub_record == 1)
             ? response()->json(['message' => 'Hub record updated successfully!', 'data' => $update_hub_record], 200)
             : response()->json(['No changes detected!'], 304);
     }
@@ -880,7 +884,7 @@ class MumeneenController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
-        return $update_zabihat_record
+        return ($update_zabihat_record == 1)
             ? response()->json(['message' => 'Zabihat record updated successfully!', 'data' => $update_zabihat_record], 200)
             : response()->json(['No changes detected!'], 304);
     }

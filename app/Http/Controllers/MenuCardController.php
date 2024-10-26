@@ -61,7 +61,7 @@ class MenuCardController extends Controller
             'dish' => $request->input('dish'),
         ]);
 
-        return $update_menu_card
+        return ($update_menu_card == 1)
             ? response()->json(['message' => 'Menu card entry updated successfully!', 'data' => $update_menu_card], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -127,7 +127,7 @@ class MenuCardController extends Controller
             'log_user' => $request->input('log_user'),
         ]);
 
-        return $update_dish
+        return($update_dish == 1)
             ? response()->json(['message' => 'Dish updated successfully!', 'data' => $update_dish], 200)
             : response()->json(['No changes detected'], 304);
     }
@@ -201,7 +201,7 @@ class MenuCardController extends Controller
             'unit' => $request->input('unit'),
         ]);
 
-        return $update_dish_item
+        return ($update_dish_item == 1)
             ? response()->json(['message' => 'Dish Item updated successfully!', 'data' => $update_dish_item], 200)
             : response()->json(['No changes detected'], 304);
     }
