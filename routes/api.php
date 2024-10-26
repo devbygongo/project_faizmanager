@@ -155,7 +155,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // menu_card
     Route::post('/menu_card', [MenuCardController::class, 'register_menu_card']);
-    Route::get('/menu_card', [MenuCardController::class, 'all_menu_card']);
+    Route::get('/menu_card', [MenuCardController::class, 'all_menu_cards']);
     Route::post('/update_menu_card/{id}', [MenuCardController::class, 'update_menu_card']);
     Route::delete('/menu_card/{id}', [MenuCardController::class, 'delete_menu_card']);
 
