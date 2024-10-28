@@ -192,6 +192,8 @@ class MumeneenController extends Controller
             $members->save();
         });
 
+        unset($newHead['created_at'], $newHead['updated_at']);
+
         return response()->json([
             'message' => 'Family reassigned successfully!',
             'new_family_id' => $newFamilyId,
@@ -257,6 +259,8 @@ class MumeneenController extends Controller
             $member->mumeneen_type = ($member->id === $newHead->id) ? 'HOF' : 'FM';
             $member->save();
         });
+
+        unset($newHead['created_at'], $newHead['updated_at']);
 
         return response()->json([
             'message' => 'New members added to the family successfully!',
