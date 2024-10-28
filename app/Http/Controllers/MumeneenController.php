@@ -82,6 +82,18 @@ class MumeneenController extends Controller
             : response()->json(['Sorry, failed to fetched records!'], 404);
     }
 
+    // dashboard
+    public function get_user($id)
+    {
+        $get_user_records = User::select('name', 'email', 'jamiat_id', 'family_id', 'mobile', 'its', 'hof_its', 'its_family_id', 'folio_no', 'mumeneen_type', 'title', 'gender', 'age', 'building', 'sector', 'sub_sector', 'status', 'role', 'username')
+                             ->where('id', $id)
+                             ->get();
+
+        return isset($get_user_records) && $get_user_records->isNotEmpty()
+            ? response()->json(['User Record Fetched Successfully!', 'data' => $get_user_records], 200)
+            : response()->json(['Sorry, failed to fetched records!'], 404);
+    }
+
     // update
     public function update_record(Request $request, $id)
     {
@@ -138,6 +150,119 @@ class MumeneenController extends Controller
         return ($update_user_record == 1)
         ? response()->json(['message' => 'Record updated Successfully!', 'data' => $update_user_record], 200)
         : response()->json(['No changes detected'], 304);
+    }
+
+    // split family
+    public function split_family(Request $request)
+    {
+        $request->validate([
+            'members' => 'required|array|min:1', // Array of member IDs who are leaving
+            'members.*' => 'exists:users,id',
+            'new_head_id' => 'required|integer|exists:users,id', // Specify which member will be the new head
+        ]);
+
+        $members = User::whereIn('id', $request->members)->get();
+
+        if($members->isEmpty())
+        {
+            return response()->json(['message' => 'No members found!'], 404);
+        }
+
+        // Check if the specified head is among the leaving members
+        $newHead = $members->firstWhere('id', $request->new_head_id);
+        
+        if(!$newHead)
+        {
+            return response()->json(['message' => 'The specified head is not among the leaving members!'], 400);
+        }
+
+        // Generate a new unique family_id
+            $newFamilyId = generateUniqueFamilyId();
+        
+        // Update the new head with the new family_id and role
+        $newHead->family_id = $newFamilyId;
+        $newHead->mumeneen_type	 = 'HOF';
+        $newHead->save();
+        
+        // Update all other members as 'family_member' and assign the new family_id
+        $members->each(function ($members) use ($newFamilyId, $newHead)
+        {
+            $members->family_id = $newFamilyId;
+            $members->mumeneen_type = $members->id === $newHead->id ? 'HOF' : 'FM';
+            $members->save();
+        });
+
+        return response()->json([
+            'message' => 'Family reassigned successfully!',
+            'new_family_id' => $newFamilyId,
+            'new_head' => $newHead,
+        ], 200);
+    }
+
+    // merge family
+    public function merge_family(Request $request)
+    {
+        $request->validate([
+            'family_id' => 'required|string|exists:users,family_id', // Existing family ID
+            'new_members' => 'required|array|min:1', // Array of new member IDs
+            'new_members.*' => 'exists:users,id',
+            'new_head_id' => 'nullable|integer|exists:users,id', // ID of the new member to be potentially assigned as head
+        ]);
+
+        // Fetch the existing family members
+        $existingFamilyMembers = User::where('family_id', $request->family_id)->get();
+
+        // Check if there's already an existing head of the family
+        $existingHead = $existingFamilyMembers->firstWhere('mumeneen_type', 'HOF');
+
+        // Fetch new members trying to join
+        $newMembers = User::whereIn('id', $request->new_members)->get();
+
+        if ($newMembers->isEmpty()) {
+            return response()->json(['message' => 'No new members found!'], 404);
+        }
+
+        // Determine the new head
+        $newHead = null;
+        if ($request->new_head_id) {
+            // If a new head ID is provided, ensure it is among the new members
+            $newHead = $newMembers->firstWhere('id', $request->new_head_id);
+            if (!$newHead) {
+                return response()->json(['message' => 'The specified new head is not among the new members!'], 400);
+            }
+
+            // Update all existing family members to be 'FM' (Family Members)
+            $existingFamilyMembers->each(function ($member) {
+                $member->mumeneen_type = 'FM';
+                $member->save();
+            });
+
+            // Set the new head's role as 'HOF' and assign the family ID
+            $newHead->family_id = $request->family_id;
+            $newHead->mumeneen_type = 'HOF';
+            $newHead->save();
+        } else {
+            // If no new head ID is provided, keep the existing head
+            $newHead = $existingHead;
+        }
+
+        // Ensure the existing head remains if no new head is assigned
+        if (!$newHead) {
+            return response()->json(['message' => 'No head of the family specified or found!'], 400);
+        }
+
+        // Update all new members as 'FM' (Family Members) and assign the existing family ID
+        $newMembers->each(function ($member) use ($request, $newHead) {
+            $member->family_id = $request->family_id;
+            $member->mumeneen_type = ($member->id === $newHead->id) ? 'HOF' : 'FM';
+            $member->save();
+        });
+
+        return response()->json([
+            'message' => 'New members added to the family successfully!',
+            'family_id' => $request->family_id,
+            'head_of_family' => $newHead,
+        ], 200);
     }
 
     // delete

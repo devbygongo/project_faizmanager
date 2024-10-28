@@ -33,6 +33,8 @@ return new class extends Migration
             $table->integer('otp')->after('role')->nullable();
             $table->timestamp('expires_at')->after('otp')->nullable();
             $table->string('username')->after('password');
+            $table->enum('thali_status', ['taking', 'not_taking', 'once_a_week', 'joint'])->after('username')->nullable();
+            $table->longText('joint_with')->after('thali_status')->nullable();
         });
     }
 

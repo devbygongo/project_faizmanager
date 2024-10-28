@@ -119,7 +119,8 @@ class AuthController extends Controller
                         'data' => [
                             'token' => $generated_token,
                             'name' => $user->name,
-                            // 'role' => $user->role,
+                            'role' => $user->role,
+                            'id' => $user->id,
                         ],
                         'message' => 'User logged in successfully!',
                     ], 200);
@@ -152,7 +153,8 @@ class AuthController extends Controller
                     'data' => [
                         'token' => $generated_token,
                         'name' => $user->name,
-                        // 'role' => $user->role,
+                        'role' => $user->role,
+                        'id' => $user->id,
                     ],
                     'message' => 'User logged in successfully!',
                 ], 200);
