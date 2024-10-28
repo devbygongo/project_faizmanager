@@ -75,7 +75,7 @@ class MumeneenController extends Controller
     // view
     public function users()
     {
-        $get_all_users = User::select('name', 'email', 'jamiat_id', 'family_id', 'mobile', 'its', 'hof_its', 'its_family_id', 'folio_no', 'mumeneen_type', 'title', 'gender', 'age', 'building', 'sector', 'sub_sector', 'status', 'role', 'username');
+        $get_all_users = User::select('name', 'email', 'jamiat_id', 'family_id', 'mobile', 'its', 'hof_its', 'its_family_id', 'folio_no', 'mumeneen_type', 'title', 'gender', 'age', 'building', 'sector', 'sub_sector', 'status', 'role', 'username')->get();
 
         return isset($get_all_users) && $get_all_users->isNotEmpty()
             ? response()->json(['User Fetched Successfully!', 'data' => $get_all_users], 200)
@@ -86,7 +86,7 @@ class MumeneenController extends Controller
     public function update_record(Request $request, $id)
     {
         // Fetch the record by ID
-        $get_user = User::where('its', $id)->first();
+        $get_user = User::where('id', $id)->first();
 
         // Check if the record exists
         if (!$get_user) {

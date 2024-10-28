@@ -54,7 +54,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // year
     Route::post('/year', [MumeneenController::class, 'register_year']);
-    Route::get('/year', [MumeneenController::class, 'all_year']);
+    Route::get('/year', [MumeneenController::class, 'all_years']);
     Route::post('/update_year/{id}', [MumeneenController::class, 'update_year']);
     Route::delete('/year/{id}', [MumeneenController::class, 'delete_year']);
 
@@ -74,7 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/hub', [MumeneenController::class, 'register_hub']);
     Route::get('/hub', [MumeneenController::class, 'all_hub']);
     Route::post('/update_hub/{id}', [MumeneenController::class, 'update_hub']);
-    Route::delete('/hub/{id}', [MumeneenController::class, 'delete_fcm']);
+    Route::delete('/hub/{id}', [MumeneenController::class, 'delete_hub']);
 
     // zabihat
     Route::post('/zabihat', [MumeneenController::class, 'register_zabihat']);

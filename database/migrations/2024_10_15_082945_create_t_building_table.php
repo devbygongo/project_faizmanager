@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('t_building', function (Blueprint $table) {
             $table->id();
             $table->integer('jamiat_id');
-            $table->integer('name');
+            $table->string('name');
             $table->string('address_lime_1')->nullable();
             $table->string('address_lime_2')->nullable();
             $table->string('city')->nullable();
