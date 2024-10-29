@@ -212,4 +212,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/super_admin_counter/{id}', [JamiatController::class, 'delete_super_admin_counter']);
     
 });
+// Route::get('/import_users', [CSVImportController::class, 'importUser']);
+
 Route::get('/import_users', [CSVImportController::class, 'importUser']);
