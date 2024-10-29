@@ -1054,10 +1054,11 @@ class MumeneenController extends Controller
     // try csv
     public function importUser()
     {
-        $csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM-hjx9inHhq2KdvGOC8xf1t4ZxWPKgP3nAIm72iWg5FuQ_uC6fpN130UVeVHjzzRLkNUT7r8q8681/pub?gid=0&single=true&output=csv';
+        $csvUrl = 'KOLKATA_Mumineen_Database_01-Dec-23.csv';
 
         // Retrieve the CSV content from the URL
         $csvContent = file_get_contents($csvUrl);
+        dd($csvContent);
 
         // Create a CSV reader instance from the content string
         $csv = Reader::createFromString($csvContent);
@@ -1078,13 +1079,19 @@ class MumeneenController extends Controller
             if ($existingUser) {
                 // If the user exists, update the record
                 $existingUser->update([
-                    'name' => $user['Name'],
-                    'password' => bcrypt($user['Mobile']),
-                    'family_id' => random_int(1000000000, 9999999999),
-                    'its' => $userIts,
-                    'hof_its' => $userIts,
+                    'jamiat_id' => 1,
+                    'hof_its' => $user['HOF_ID'],
+                    'its_family_id' => $user['Family_ID'],
+                    'name' => $user['Full_Name'],
+                    'email' => $user['Email'],
                     'mobile' => $user['Mobile'],
-                    'gender' => strtolower($user['Gender']),
+                    'title' => $user['First_Prefix'],
+                    'mumeneen_type' => $user['HOF_FM_TYPE'],
+                    'gender' => $user['Gender'],
+                    'age' => $user['Age'],
+                    'sector' => $user['Sector'],
+                    'sub_sector' => $user['Sub_Sector'],
+                    'name_arabic' => $user['Full_Name_Arabic'],
                 ]);
             } else {
                 // If it doesn't exist, add it to the batch for creation
@@ -1095,13 +1102,13 @@ class MumeneenController extends Controller
                     'name' => $user['Full_Name'],
                     'email' => $user['Email'],
                     'mobile' => $user['Mobile'],
-                    'title' => $user['Mobile'],
-                    'mumeneen_type' => strtolower($user['Gender']),
-                    'gender' => $user['Mobile'],
-                    'age' => $user['Mobile'],
-                    'sector' => $user['Mobile'],
-                    'sub_sector' => $user['Mobile'],
-                    'name_arabic' => $user['Mobile'],
+                    'title' => $user['First_Prefix'],
+                    'mumeneen_type' => $user['HOF_FM_TYPE'],
+                    'gender' => $user['Gender'],
+                    'age' => $user['Age'],
+                    'sector' => $user['Sector'],
+                    'sub_sector' => $user['Sub_Sector'],
+                    'name_arabic' => $user['Full_Name_Arabic'],
                 ];
 
                 // Insert in batches of 1000 records
