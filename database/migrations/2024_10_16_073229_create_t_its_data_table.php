@@ -23,8 +23,8 @@ return new class extends Migration
             $table->enum('mumeneen_type', ['HOF', 'FM']);
             $table->enum('gender', ['male', 'female']);
             $table->integer('age');
-            $table->integer('sector');
-            $table->integer('sub_sector');
+            $table->string('sector');
+            $table->string('sub_sector');
             // as it don't support `length`, it can store upto `65,535 characters for TEXT type in MySQL`
             $table->text('name_arabic');
             $table->timestamps();

@@ -210,8 +210,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/super_admin_counter', [JamiatController::class, 'view_super_admin_counters']);
     Route::post('/update_super_admin_counter/{id}', [JamiatController::class, 'update_super_admin_counter']);
     Route::delete('/super_admin_counter/{id}', [JamiatController::class, 'delete_super_admin_counter']);
-    
+
+    Route::get('/import_its', [CSVImportController::class, 'importIts']);    
 });
 // Route::get('/import_users', [CSVImportController::class, 'importUser']);
 
-Route::get('/import_users', [CSVImportController::class, 'importUser']);
+// Route::get('/import_users', [CSVImportController::class, 'importUser']);
