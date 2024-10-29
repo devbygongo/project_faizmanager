@@ -13,6 +13,11 @@ use App\Models\MenuModel;
 use App\Models\FcmModel;
 use App\Models\HubModel;
 use App\Models\ZabihatModel;
+
+
+use Illuminate\Support\Facades\DB;
+use League\Csv\Reader;
+
 use Hash;
 
 class MumeneenController extends Controller
@@ -1044,5 +1049,82 @@ class MumeneenController extends Controller
         return $delete_zabihat
             ? response()->json(['message' => 'Zabihat record deleted successfully!'], 200)
             : response()->json(['message' => 'Zabihat record not found!'], 404);
+    }
+
+    // try csv
+    public function importUser()
+    {
+        $csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM-hjx9inHhq2KdvGOC8xf1t4ZxWPKgP3nAIm72iWg5FuQ_uC6fpN130UVeVHjzzRLkNUT7r8q8681/pub?gid=0&single=true&output=csv';
+
+        // Retrieve the CSV content from the URL
+        $csvContent = file_get_contents($csvUrl);
+
+        // Create a CSV reader instance from the content string
+        $csv = Reader::createFromString($csvContent);
+        $csv->setHeaderOffset(0); // Set header offset
+
+        // Retrieve records from CSV
+        $userRecords = $csv->getRecords();
+        $batchSize = 100; // Define batch size for processing
+        $batchData = [];
+
+        foreach ($userRecords as $user) {
+            // Check if user already exists by 'mobile'
+            $existingUser = User::where('mobile', $user['Mobile'])->first();
+
+            // Assign ITS ID or default to 0 if empty
+            $userIts = !empty($user['ITS_ID']) ? $user['ITS_ID'] : 0;
+
+            if ($existingUser) {
+                // If the user exists, update the record
+                $existingUser->update([
+                    'name' => $user['Name'],
+                    'password' => bcrypt($user['Mobile']),
+                    'family_id' => random_int(1000000000, 9999999999),
+                    'its' => $userIts,
+                    'hof_its' => $userIts,
+                    'mobile' => $user['Mobile'],
+                    'gender' => strtolower($user['Gender']),
+                ]);
+            } else {
+                // If it doesn't exist, add it to the batch for creation
+                $batchData[] = [
+                    'name' => $user['Name'],
+                    'password' => bcrypt($user['Mobile']),
+                    'family_id' => random_int(1000000000, 9999999999),
+                    'its' => $userIts,
+                    'hof_its' => $userIts,
+                    'mobile' => $user['Mobile'],
+                    'gender' => strtolower($user['Gender']),
+                ];
+
+                // Insert in batches of 1000 records
+                if (count($batchData) >= $batchSize) {
+                    $this->insertBatch($batchData);
+                    $batchData = []; // Clear batch after insertion
+                }
+            }
+        }
+
+        // Insert any remaining records
+        if (count($batchData) > 0) {
+            $this->insertBatch($batchData);
+        }
+
+        return response()->json(['message' => 'CSV import completed successfully.'], 200);
+    }
+
+    // Helper function to insert data in batches
+    private function insertBatch($data)
+    {
+        try {
+            // Disable query log for performance improvement
+            DB::connection()->disableQueryLog();
+
+            // Insert batch into users table
+            User::insert($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error inserting batch: ' . $e->getMessage()], 500);
+        }
     }
 }
