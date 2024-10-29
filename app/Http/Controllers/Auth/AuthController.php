@@ -96,15 +96,15 @@ class AuthController extends Controller
 
             if($otpRecord)
             {
-                if(!$otpRecord || $otpRecord->otp != $otp)
-                {
-                    return response()->json(['message' => 'Sorry, invalid Otp!'], 400);
-                }
-                elseif ($otpRecord->expires_at < now()) {
-                    return response()->json(['message' => 'Sorry, otp has expired!'], 400);
-                }
+                // if(!$otpRecord || $otpRecord->otp != $otp)
+                // {
+                //     return response()->json(['message' => 'Sorry, invalid Otp!'], 400);
+                // }
+                // elseif ($otpRecord->expires_at < now()) {
+                //     return response()->json(['message' => 'Sorry, otp has expired!'], 400);
+                // }
 
-                else {
+                // else {
                     // Remove OTP record after successful validation
                     User::select('otp')->where('mobile', $request->mobile)->update(['otp' => null, 'expires_at' => null]);
 
@@ -124,7 +124,7 @@ class AuthController extends Controller
                         ],
                         'message' => 'User logged in successfully!',
                     ], 200);
-                }
+                // }
             }
 
             else {

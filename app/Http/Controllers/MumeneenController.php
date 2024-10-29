@@ -1070,7 +1070,7 @@ class MumeneenController extends Controller
 
         foreach ($userRecords as $user) {
             // Check if user already exists by 'mobile'
-            $existingUser = User::where('mobile', $user['Mobile'])->first();
+            $existingUser = ItsModel::where('mobile', $user['Mobile'])->first();
 
             // Assign ITS ID or default to 0 if empty
             $userIts = !empty($user['ITS_ID']) ? $user['ITS_ID'] : 0;
@@ -1089,13 +1089,19 @@ class MumeneenController extends Controller
             } else {
                 // If it doesn't exist, add it to the batch for creation
                 $batchData[] = [
-                    'name' => $user['Name'],
-                    'password' => bcrypt($user['Mobile']),
-                    'family_id' => random_int(1000000000, 9999999999),
-                    'its' => $userIts,
-                    'hof_its' => $userIts,
+                    'jamiat_id' => 1,
+                    'hof_its' => $user['HOF_ID'],
+                    'its_family_id' => $user['Family_ID'],
+                    'name' => $user['Full_Name'],
+                    'email' => $user['Email'],
                     'mobile' => $user['Mobile'],
-                    'gender' => strtolower($user['Gender']),
+                    'title' => $user['Mobile'],
+                    'mumeneen_type' => strtolower($user['Gender']),
+                    'gender' => $user['Mobile'],
+                    'age' => $user['Mobile'],
+                    'sector' => $user['Mobile'],
+                    'sub_sector' => $user['Mobile'],
+                    'name_arabic' => $user['Mobile'],
                 ];
 
                 // Insert in batches of 1000 records
