@@ -87,11 +87,11 @@ class AuthController extends Controller
         if($otp)
         {
             $request->validate([
-                'mobile' => ['required', 'string', 'size:13'],
+                'username' => ['required', 'string'],
             ]);
             
             $otpRecord = User::select('otp', 'expires_at')
-            ->where('mobile', $request->mobile)
+            ->where('username', $request->username)
             ->first();
 
             if($otpRecord)
@@ -106,10 +106,10 @@ class AuthController extends Controller
 
                 // else {
                     // Remove OTP record after successful validation
-                    User::select('otp')->where('mobile', $request->mobile)->update(['otp' => null, 'expires_at' => null]);
+                    User::select('otp')->where('username', $request->username)->update(['otp' => null, 'expires_at' => null]);
 
                     // Retrieve the use
-                    $user = User::where('mobile', $request->mobile)->first();
+                    $user = User::where('username', $request->username)->first();
 
                     // Generate a sanctrum token
                     $generated_token = $user->createToken('API TOKEN')->plainTextToken;
