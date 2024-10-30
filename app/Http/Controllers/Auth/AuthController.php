@@ -14,13 +14,13 @@ class AuthController extends Controller
     public function generate_otp(Request $request)
     {
         $request->validate([
-            'mobile' => ['required', 'string', 'min:12', 'max:14'],
+            'username' => ['required', 'string'],
         ]);
 
-        $mobile = $request->input('mobile');
+        $username = $request->input('username');
 
         $get_user = User::select('id')
-                        ->where('mobile', $mobile)
+                        ->where('username', $username)
                         ->first();
 
         if(!$get_user == null)
@@ -29,7 +29,7 @@ class AuthController extends Controller
 
             $expiresAt = now()->addMinutes(10);
 
-            $store_otp = User::where('mobile', $mobile)
+            $store_otp = User::where('username', $username)
                              ->update([
                                 'otp' => $six_digit_otp,
                                 'expires_at' => $expiresAt,
@@ -66,7 +66,7 @@ class AuthController extends Controller
 
                 $whatsappUtility = new sendWhatsAppUtility();
 
-                $response = $whatsappUtility->sendWhatsApp($mobile, $templateParams, $mobile, 'OTP Campaign');
+                $response = $whatsappUtility->sendWhatsApp($get_user->mobile, $templateParams, $get_user->mobile, 'OTP Campaign');
 
                 return response()->json([
                     'message' => 'Otp send successfully!',
