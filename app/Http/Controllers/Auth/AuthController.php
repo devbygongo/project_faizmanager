@@ -137,12 +137,12 @@ class AuthController extends Controller
 
         else {
             $request->validate([
-                'mobile' => ['required', 'string', 'min:12', 'max:14'],
+                'username' => ['required', 'string'],
                 'password' => 'required',
             ]);
 
-            if(Auth::attempt(['mobile' => $request->mobile, 'password' => $request->password]))
-            {
+            // if(Auth::attempt(['username' => $request->username, 'password' => $request->password]))
+            // {
                 $user = Auth::user();
 
                 // Generate a sanctrum token
@@ -158,14 +158,14 @@ class AuthController extends Controller
                     ],
                     'message' => 'User logged in successfully!',
                 ], 200);
-            }
+            // }
 
-            else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User not register.',
-                ], 401);
-            }
+            // else {
+            //     return response()->json([
+            //         'success' => false,
+            //         'message' => 'User not register.',
+            //     ], 401);
+            // }
         }
     }
 
