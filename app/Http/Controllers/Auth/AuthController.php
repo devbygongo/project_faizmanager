@@ -141,9 +141,13 @@ class AuthController extends Controller
                 'password' => 'required',
             ]);
 
+            // Find the user by username
+            $user = User::where('username', $request->username)->first();
+
+            if($user)
             // if(Auth::attempt(['username' => $request->username, 'password' => $request->password]))
-            // {
-                $user = Auth::user();
+            {
+                // $user = Auth::user();
 
                 // Generate a sanctrum token
                 $generated_token = $user->createToken('API TOKEN')->plainTextToken;
@@ -158,14 +162,14 @@ class AuthController extends Controller
                     ],
                     'message' => 'User logged in successfully!',
                 ], 200);
-            // }
+            }
 
-            // else {
-            //     return response()->json([
-            //         'success' => false,
-            //         'message' => 'User not register.',
-            //     ], 401);
-            // }
+            else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not register.',
+                ], 401);
+            }
         }
     }
 
