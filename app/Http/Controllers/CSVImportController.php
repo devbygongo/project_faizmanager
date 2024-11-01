@@ -231,7 +231,7 @@ class CSVImportController extends Controller
     public function importIts()
     {
         // Truncate the table to remove existing data
-        ItsModel::truncate(); // Clears all existing records in the 'users' table
+        ItsModel::truncate(); // Clears all existing records in the 'its' table
 
         $csvUrl = public_path('storage/KOLKATA_Mumineen_Database_26-Sep-24.csv');
 
